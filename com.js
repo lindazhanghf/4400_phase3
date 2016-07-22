@@ -1,4 +1,5 @@
 (function() {
+  'use strict';
   angular.module('GT_Movie.com')
   .factory('socket', ['$rootScope', function ($rootScope) {
     var socket = io.connect();

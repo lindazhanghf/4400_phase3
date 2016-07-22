@@ -1,17 +1,21 @@
 <div class="login-page">
   <div class="form">
     <h1>GT Movie</h1><br>
-    <form class="register-form">
-      <input type="text" placeholder="name"/>
-      <input type="password" placeholder="password"/>
-      <input type="text" placeholder="email address"/>
-      <button>create</button>
-      <p class="message">Already registered? <a href="#">Sign In</a></p>
-    </form>
-    <form class="login-form">
-      <input type="text" placeholder="username"/>
-      <input type="password" placeholder="password"/>
-      <button>login</button>
+    <form class="login-form" name = "myForm">
+    <!-- <pre>myForm.myName = {{ myForm.Username | json }}</pre> -->
+      <input type="text" placeholder="Username" ng-model="user.Username" name="Username" ng-required="true" ng-minlength="3" ng-maxlength="30"/>
+      <div ng-messages="myForm.Username.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Username.$dirty">
+        <span ng-message="required">field required</span>
+        <span ng-message="minlength">Username should be at least 3 characters</span>
+        <span ng-message="maxlength">Username cannot be longer than 30 characters</span>
+      </div> <br>
+      <input type="password" placeholder="Password" ng-model="user.Password" name="Password" ng-required="true"/>
+      <div ng-messages="myForm.Password.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Password.$dirty" ng-minlength="3" ng-maxlength="30">
+        <span ng-message="required">field required</span>
+        <span ng-message="minlength">Username should be at least 3 characters</span>
+        <span ng-message="maxlength">Username cannot be longer than 30 characters</span>
+      </div><br>
+      <button ng-click="login()">login</button>
       <p class="message">Not registered? <a href="#">Create an account</a></p>
     </form>
   </div>

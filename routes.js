@@ -1,4 +1,5 @@
 (function() {
+    'use strict';
     angular.module('GT_Movie.routes', ['ngRoute'])
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider

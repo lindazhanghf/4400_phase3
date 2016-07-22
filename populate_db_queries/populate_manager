@@ -1,0 +1,5 @@
+INSERT INTO MANAGER SET `Username` = 'yzhao343'
+INSERT INTO MANAGER SET `Username` = 'zzang391'
+INSERT INTO MANAGER SET `Username` = 'jthornburgh3'
+INSERT INTO MANAGER SET `Username` = 'buzz'
+INSERT INTO MANAGER SET `Username` = 'gburdell3'
