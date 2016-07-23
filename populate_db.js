@@ -12,7 +12,9 @@ var get_user_names = 0;
 var insert_users = 0;
 var insert_system_info = 0;
 var insert_movie = 0;
-var insert_theater = 1;
+var insert_theater = 0;
+var insert_plays_at = 0;
+var insert_Showtime = 1;
 connection.connect();
 var system_info = {
     Cancellation_fee : 2.75,
@@ -170,5 +172,30 @@ if (insert_theater) {
             };
             console.log(result);
         })
+    };
+};
+
+var days = ['22','23','24','25','26']
+if (insert_Showtime) {
+    var movies = JSON.parse(fs.readFileSync('./populate_db_queries/insert_Showtime.json', 'utf8'));
+    console.log(movies);
+    for (var i = movies.length - 1; i >= 0; i--) {
+        months = '2016-07-';
+        for (var j = 0; j <= days.length-1; j++) {
+            day = months + days[j]
+            for (var k = 0; k < 5; k++) {
+                hour = Math.floor((Math.random() * 12) + 10);
+                minute = Math.floor((Math.random() * 60));
+                timeStamp = day + ' ' + hour.toString() + ':' + minute.toString() + ':00';
+
+                movies[i].Showtime = timeStamp;
+                query = connection.query('INSERT INTO SHOWTIME SET ?', movies[i], function(err, result) {
+                    if (err) {
+                        console.log(err)
+                    };
+                    console.log(result);
+                })
+            }
+        }
     };
 };
