@@ -4,63 +4,63 @@
     .config(['$routeProvider', function($routeProvider) {
         $routeProvider
         .when('/login', {
-            templateUrl: './components/login/Login_ctrl.js',
+            templateUrl: './components/login/login.html',
             controller: 'Login_ctrl'
         })
         .when('/now_playing', {
-            templateUrl: './components/now_playing/Now_playing_ctrl.js',
+            templateUrl: './components/now_playing/now_playing.html',
             controller: 'Now_playing_ctrl'
         })
         .when('/me', {
-            templateUrl: './components/me/Me_ctrl.js',
+            templateUrl: './components/me/me.html',
             controller: 'Me_ctrl'
         })
         .when('/register', {
-            templateUrl: './components/register/Register_ctrl.js',
+            templateUrl: './components/register/register.html',
             controller: 'Register_ctrl'
         })
         .when('/movie', {
-            templateUrl: './components/movie/Movie_ctrl.js',
+            templateUrl: './components/movie/movie.html',
             controller: 'Movie_ctrl'
         })
         .when('/movie_overview', {
-            templateUrl: './components/movie_overview/Movie_overview_ctrl.js',
+            templateUrl: './components/movie_overview/movie_overview.html',
             controller: 'Movie_overview_ctrl'
         })
         .when('/my_payment_info', {
-            templateUrl: './components/my_payment_info/My_payment_info_ctrl.js',
+            templateUrl: './components/my_payment_info/my_payment_info.html',
             controller: 'My_payment_info_ctrl'
         })
         .when('/my_preferred_theater', {
-            templateUrl: './components/my_preferred_theater/My_preferred_theater_ctrl.js',
+            templateUrl: './components/my_preferred_theater/my_preferred_theater.html',
             controller: 'My_preferred_theater_ctrl'
         })
         .when('/order_detail', {
-            templateUrl: './components/order_detail/Order_detail_ctrl.js',
+            templateUrl: './components/order_detail/order_detail.html',
             controller: 'Order_detail_ctrl'
         })
         .when('/order_history', {
-            templateUrl: './components/order_history/Order_history_ctrl.js',
+            templateUrl: './components/order_history/order_history.html',
             controller: 'Order_history_ctrl'
         })
         .when('/review', {
-            templateUrl: './components/review/Review_ctrl.js',
+            templateUrl: './components/review/review.html',
             controller: 'Review_ctrl'
         })
         .when('/search_theater_result', {
-            templateUrl: './components/search_theater_result/Search_theater_result_ctrl.js',
+            templateUrl: './components/search_theater_result/search_theater_result.html',
             controller: 'Search_theater_result_ctrl'
         })
         .when('/select_time', {
-            templateUrl: './components/select_time/Select_time_ctrl.js',
+            templateUrl: './components/select_time/select_time.html',
             controller: 'Select_time_ctrl'
         })
         .when('/view_popular_movie_report', {
-            templateUrl: './components/view_popular_movie_report/View_popular_movie_report_ctrl.js',
+            templateUrl: './components/view_popular_movie_report/view_popular_movie_report.html',
             controller: 'View_popular_movie_report_ctrl'
         })
         .when('/view_revenue_report', {
-            templateUrl: './components/view_revenue_report/View_revenue_report_ctrl.js',
+            templateUrl: './components/view_revenue_report/view_revenue_report.html',
             controller: 'View_revenue_report_ctrl'
         })
 

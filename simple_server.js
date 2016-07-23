@@ -22,9 +22,98 @@ io.on('connect', function(socket) {
     console.log('a user connected')
     socket.on('login', login_handler_gen(socket))
     socket.on('register', register_handler_gen(socket))
+    socket.on('get_movie_info', get_movie_info_handler_gen(socket))
+    socket.on('get_movie_review', get_movie_review_gen(socket))
+    socket.on('give_review', give_review_gen(socket))
+    socket.on('get_preferred_theaters', get_preferred_theaters_gen(socket))
+    socket.on('add_preferred_theater', add_preferred_theater_gen(socket))
+    socket.on('get_order_history', get_order_history_gen(socket))
 })
 
 server.listen(portNum);
+function get_order_history_gen(socket) {
+    return function get_order_history(data) {
+        console.log(data);
+        connection.query('')
+    }
+}
+function add_preferred_theater_gen(socket) {
+    return function add_preferred_theater(data) {
+        console.log(data);
+        connection.query('INSERT INTO PREFERS SET ?'[data], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            console.log(result);
+        })
+    }
+}
+function get_preferred_theaters_gen(socket) {
+    return function get_preferred_theaters(data) {
+        console.log(data);
+        connection.query('SELECT Name FROM THEATER, PREFERS WHERE User = ?, Theater_id = Tid', [data], function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+            socket.emit('preferred_theaters', result);
+        })
+    }
+}
+
+function give_review_gen(socket) {
+    return function give_review(data) {
+        console.log(data);
+        if (data.Rating < 1 || data.Rating > 5) {
+            socket.on('invalid_value')
+            return
+        };
+        if (!data.Title || data.Title > 255) {
+            socket.on('invalid_value')
+            return
+        }
+        if (!data.Comment) {
+            socket.on('invalid_value')
+            return
+        };
+        connection.query('INSERT INTO REVIEW SET ?', [data], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            socket.emit('review_inserted');
+        })
+    }
+}
+function get_movie_info_handler_gen(socket) {
+    return function movie_info_handler(data) {
+        console.log(data);
+        connection.query('SELECT * FROM MOVIE WHERE Title = ?', [data], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            console.log(result);
+            socket.emit('movie_info', result[0]);
+        })
+    }
+}
+function get_movie_review_gen(socket) {
+    return function movie_review_handler(data) {
+        console.log(data);
+        connection.query('SELECT * FROM REVIEW as r WHERE r.Mtitle = ?', [data], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            console.log(result);
+            socket.emit('movie_reviews', result);
+        })
+        connection.query('SELECT AVG(Rating) FROM REVIEW WHERE Mtitle = ?', [data], function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+            console.log(result);
+            socket.emit('movie_review_avg_rating', result[0]);
+        })
+    }
+}
 function register_handler_gen(socket) {
     return function register_handler(data) {
         console.log(data)
