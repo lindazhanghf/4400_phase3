@@ -31,13 +31,24 @@ io.on('connect', function(socket) {
     socket.on('get_now_playing', get_now_playing_gen(socket))
     socket.on('get_movie_review_avg', get_movie_review_avg_gen(socket))
     socket.on('get_my_payment_info', get_my_payment_info_gen(socket))
+    socket.on('delete_saved_payment_info', delete_saved_payment_info_gen(socket))
 })
 
 server.listen(portNum);
-
+function delete_saved_payment_info_gen(socket) {
+    return function delete_saved_payment_info(data) {
+        connection.query('UPDATE PAYMENT_INFO SET Saved = false WHERE Card_number = ?', [data.Card_number], function(err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            get_my_payment_info_gen(socket)(data.User)
+        })
+    }
+}
 function get_my_payment_info_gen(socket) {
     return function get_payment_info(data) {
-        connection.query('SELECT * FROM PAYMENT_INFO WHERE User = ?', data, function(err, result) {
+        connection.query('SELECT * FROM PAYMENT_INFO WHERE User = ? AND Saved = true', data, function(err, result) {
             if (err) {
                 console.log(err)
                 return ;

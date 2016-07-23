@@ -1,3 +1,19 @@
 <div class="form">
     <h2>my payment info</h2>
+    <div>
+        <table border="1">
+            <tr>
+                <td>Card Number</td>
+                <td>Name on Card</td>
+                <td>Exp Date</td>
+                <td>Action</td>
+            </tr>
+            <tr ng-repeat="card in cards track by $index">
+                <td>{{card.Card_number}}</td>
+                <td>{{card.Name_on_card}}</td>
+                <td>{{card.Expiration_date.substring(0, 7)}}</td>
+                <td><button ng-click="delete_saved_card(card)">Delete</button>
+            </tr>
+        </table>
+    </div>
 </div>
