@@ -1,12 +1,12 @@
 <div>
+    <button ng-click="goto_me()">Me</button>
+    <button ng-click="logout()">logout</button>
     <div class="form">
-        <button ng-click="goto_me()">Me</button>
         <h1>Now playing</h1>
         <div ng-repeat="movie in movies track by $index">
             <div>
                 <a href="#/movie"  ng-click = get_movie(movie.Mtitle)>{{movie.Mtitle}}</a>
             </div> <br>
         </div>
-        <button ng-click="logout()">logout</button>
     </div>
 </div>
