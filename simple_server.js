@@ -27,6 +27,7 @@ io.on('connect', function(socket) {
     socket.on('give_review', give_review_gen(socket))
     socket.on('get_preferred_theaters', get_preferred_theaters_gen(socket))
     socket.on('add_preferred_theater', add_preferred_theater_gen(socket))
+    socket.on('delete_preferred_theater', delete_preferred_theater_gen(socket))
     socket.on('get_order_history', get_order_history_gen(socket))
     socket.on('get_now_playing', get_now_playing_gen(socket))
     socket.on('get_movie_review_avg', get_movie_review_avg_gen(socket))
@@ -93,6 +94,23 @@ function get_preferred_theaters_gen(socket) {
             };
             socket.emit('preferred_theaters', result);
         })
+    }
+}
+function delete_preferred_theater_gen(socket) {
+    return function delete_preferred_theater(data) {
+        console.log(data);
+        connection.query('DELETE FROM PREFERS WHERE User = ? AND Tid = ?', [data.User, data.Tid], function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+        })
+        get_preferred_theaters_gen(socket)(data.User)
+        // connection.query('SELECT * FROM THEATER, PREFERS WHERE User = ? AND Theater_id = Tid', [data.User], function(err, result) {
+        //     if (err) {
+        //         console.log(err);
+        //     };
+        //     socket.emit('preferred_theaters', result);
+        // })
     }
 }
 
