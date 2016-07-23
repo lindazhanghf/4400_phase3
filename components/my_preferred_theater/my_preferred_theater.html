@@ -1,13 +1,15 @@
 <div>
     <div class="form">
         <h1>My Preferred Theater</h1>
-		<table border="0">
+		<table border="0" cellpadding="10">
 				<tr ng-repeat="theater in theaters track by $index">
 					<td><h3>{{theater.Name}}</h3></td>
 					<td>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</td>
-					<!-- <td><button ng-click="delete_theater(theater)">Delete</button> -->
+					<td><button ng-click="delete_theater(theater)">Delete</button>
 				</tr>
 		</table>
+		<br><br>
+		<button ng-click="goto_me()">Back</button>
     </div>
 
 </div>

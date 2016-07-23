@@ -5,8 +5,8 @@
         <h1>Now playing</h1>
         <div ng-repeat="movie in movies track by $index">
             <div>
-                <a href="#/movie"  ng-click = get_movie(movie.Mtitle)>{{movie.Mtitle}}</a>
-            </div> <br>
+                <button ng-click = get_movie(movie.Mtitle)>{{movie.Mtitle}}</button>
+            </div>
         </div>
     </div>
 </div>
