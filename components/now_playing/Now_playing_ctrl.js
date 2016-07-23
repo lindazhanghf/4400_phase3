@@ -9,6 +9,7 @@
         })
         $scope.get_movie = function(movie_name) {
             current_user_info.movie.Title = movie_name;
+            $location.path()
         }
         $scope.goto_me = function() {
             $location.path('/me');
