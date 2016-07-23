@@ -9,10 +9,14 @@
         })
         $scope.get_movie = function(movie_name) {
             current_user_info.movie.Title = movie_name;
-            $location.path()
+            // $location.path()
         }
         $scope.goto_me = function() {
             $location.path('/me');
+        }
+        $scope.logout = function() {
+            current_user_info.user = {};
+            $location.path('/login')
         }
     }])
 })()

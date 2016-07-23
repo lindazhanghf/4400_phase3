@@ -1,0 +1,11 @@
+alter table MOVIE ADD Genre VARCHAR(30)
+UPDATE MOVIE SET Genre='Comedy' WHERE Title = 'Absolutely Fabulous: The Movie';
+UPDATE MOVIE SET Genre='Animation/Adventure/Comedy/Family' WHERE Title = 'Finding Dory';
+UPDATE MOVIE SET Genre='Comedy/Fantasy/Sci-Fi' WHERE Title = 'Ghostbusters';
+UPDATE MOVIE SET Genre='Animation/Adventure/Comedy/Family/Sci-Fi' WHERE Title = 'Ice Age: Collision Course';
+UPDATE MOVIE SET Genre='Horror' WHERE Title = 'Lights Out';
+UPDATE MOVIE SET Genre='Action/Adventure/Sci-Fi/Thriller' WHERE Title = 'Star Trek Beyond';
+UPDATE MOVIE SET Genre='Biography/Crime/Drama/Thriller' WHERE Title = 'The Infiltrator';
+UPDATE MOVIE SET Genre='Action/Adventure/Drama/Romance' WHERE Title = 'The Legend of Tarzan';
+UPDATE MOVIE SET Genre='Animation/Comedy/Family' WHERE Title = 'The Secret Life of Pets';
+UPDATE MOVIE SET Genre='Action/Horror/Thriller' WHERE Title = 'Train to Busan';

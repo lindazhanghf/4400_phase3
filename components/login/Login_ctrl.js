@@ -30,8 +30,5 @@
         function goto(path) {
             $location.path(path);
         }
-        $scope.register = function() {
-            $location.path('/register');
-        }
     }])
 })()

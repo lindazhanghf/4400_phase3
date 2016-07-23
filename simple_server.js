@@ -29,6 +29,7 @@ io.on('connect', function(socket) {
     socket.on('add_preferred_theater', add_preferred_theater_gen(socket))
     socket.on('get_order_history', get_order_history_gen(socket))
     socket.on('get_now_playing', get_now_playing_gen(socket))
+    socket.on('get_movie_review_avg', get_movie_review_avg_gen(socket))
 })
 
 server.listen(portNum);
@@ -83,6 +84,10 @@ function give_review_gen(socket) {
             socket.on('invalid_value')
             return
         };
+        if (!data.User) {
+            socket.on('invalid_value')
+            return
+        };
         connection.query('INSERT INTO REVIEW SET ?', [data], function(err, result) {
             if (err) {
                 console.log(err)
@@ -113,6 +118,11 @@ function get_movie_review_gen(socket) {
             console.log(result);
             socket.emit('movie_reviews', result);
         })
+    }
+}
+
+function get_movie_review_avg_gen(socket) {
+    return function movie_review_avg_handler(data) {
         connection.query('SELECT AVG(Rating) FROM REVIEW WHERE Mtitle = ?', [data], function(err, result) {
             if (err) {
                 console.log(err);

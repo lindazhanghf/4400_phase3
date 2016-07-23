@@ -1,6 +1,12 @@
 <div class="form">
-    <span>movie page</span>
-     <br>
+    <h2>movie page</h2>
+    <br>
+    <h3>Movie title: {{movie_info.Title}}</h3>
+    <h3>Release Date: {{movie_info.Release_date.substring(0, 10)}}</h3>
+    <h3>Rating: {{movie_info.Rating}}</h3>
+    <h3>Length: {{movie_info.Length.substring(0, movie_info.Length.length - 2)}} min</h3>
+    <h3>Genre: {{movie_info.Genre}}</h3>
+    <h3>Fan rating: {{movie_info.fan_rating}}</h3>
      <div>
          <button ng-click="goto('/movie_overview')">Overview</button>
      </div> <br>
@@ -8,7 +14,7 @@
          <button ng-click="goto('/review')">Movie Review</button> <br>
      </div> <br>
      <div>
-         <button ng-click="goto('/order_history')">Buy Ticket</button> <br>
+         <button ng-click="goto('/buy_ticket')">Buy Ticket</button> <br>
      </div> <br>
      <div>
          <button ng-click="goto('/now_playing')">Back</button> <br>

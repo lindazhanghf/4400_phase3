@@ -1,0 +1,37 @@
+<div class="form">
+    <h2>Give Review</h2>
+    <h3>Movie title: {{movie_info.Title}}</h3> <br>
+    <span>Rating:</span>
+    <form name = "myForm">
+        <div>
+            <select name="Rating" ng-model=review.Rating>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <br>
+        <span>Title:</span>
+        <br>
+        <input type="Title" placeholder="Title" ng-model="review.Title" name="Title" ng-required="true"/>
+        <div ng-messages="myForm.Title.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Username.$dirty">
+          <span ng-message="required">field required</span>
+        </div> <br>
+        <span>Comment:</span>
+        <br>
+        <textarea name="Comment", ng-model = review.Comment placeholder="Comment" ng-required="true" rows="8" cols="40"></textarea>
+        <div ng-messages="myForm.Comment.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Username.$dirty">
+          <span ng-message="required">field required</span>
+        </div> <br>
+        <br>
+    </form>
+    <div>
+        <button ng-click="submit_review()">Submit</button> <br>
+    </div>
+    <br>
+    <div>
+        <button ng-click="goto('/review')">Back</button> <br>
+    </div>
+</div>

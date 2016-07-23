@@ -63,6 +63,14 @@
             templateUrl: './components/view_revenue_report/view_revenue_report.html',
             controller: 'View_revenue_report_ctrl'
         })
+        .when('/buy_ticket', {
+            templateUrl: './components/buy_ticket/buy_ticket.html',
+            controller: 'buy_ticket_ctrl'
+        })
+        .when('/give_review', {
+            templateUrl: './components/give_review/give_review.html',
+            controller: 'Give_review_ctrl'
+        })
 
         .otherwise({
             redirectTo: '/login'

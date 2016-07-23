@@ -1,5 +1,16 @@
-<div>
-    <span>me page</span>
+<div class="form">
+    <h2>Movie Overview</h2>
+    <!-- <p>{{movie_info}}</p> -->
+    <h3>Movie title: {{movie_info.Title}}</h3>
+    <h3>Synopsis:</h3>
+    <p>{{movie_info.Synopsis}}</p>
+    <h3>Cast by:</h3>
+    <p>{{movie_info.Cast}}</p>
+    <h3>Release Date: {{movie_info.Release_date.substring(0, 10)}}</h3>
+    <h3>Rating: {{movie_info.Rating}}</h3>
+    <h3>Length: {{movie_info.Length.substring(0, movie_info.Length.length - 2)}} min</h3>
+    <h3>Genre: {{movie_info.Genre}}</h3>
+    <h3>Fan rating: {{movie_info.fan_rating || 1}}</h3>
     <div>
          <button ng-click="goto('/movie')">Back</button> <br>
      </div>

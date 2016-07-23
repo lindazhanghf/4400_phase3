@@ -1,5 +1,17 @@
 <div class="form">
-    <span>Movie Review</span>
+    <h2>Movie Review</h2>
+    <span> Fan rating: {{movie_info.fan_rating || 1}}</span>
+    <div ng-repeat="review in reviews track by $index" style="border-style: solid; border-width: 2px;">
+        <h3>Title: {{review.Title}}</h3>
+        <h3>Rating: {{review.Rating}}</h3>
+        <h3>Comment: {{review.Comment}}</h3>
+        <h4>By {{review.User}}</h4> <br>
+    </div>
+    <br>
+    <div>
+        <button ng-click="goto('/give_review')">Give Review</button> <br>
+    </div>
+    <br>
     <div>
         <button ng-click="goto('/movie')">Back</button> <br>
     </div>
