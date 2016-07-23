@@ -15,6 +15,10 @@
             templateUrl: 'components/register/register.html',
             controller: 'Register_ctrl'
         })
+        .when('/me', {
+            templateUrl:'components/me/me.html',
+            controller: 'Me_ctrl'
+        })
         .otherwise({
             redirectTo: '/login'
         })
