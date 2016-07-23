@@ -71,7 +71,9 @@ function get_now_playing_gen(socket) {
 function get_order_history_gen(socket) {
     return function get_order_history(data) {
         console.log(data);
-        connection.query('SELECT')
+        connection.query('SELECT * FROM ORDER WHERE User = ?', [data], function(err, result) {
+            socket.emit('order_history', result);
+        })
     }
 }
 function add_preferred_theater_gen(socket) {
@@ -105,12 +107,6 @@ function delete_preferred_theater_gen(socket) {
             };
         })
         get_preferred_theaters_gen(socket)(data.User)
-        // connection.query('SELECT * FROM THEATER, PREFERS WHERE User = ? AND Theater_id = Tid', [data.User], function(err, result) {
-        //     if (err) {
-        //         console.log(err);
-        //     };
-        //     socket.emit('preferred_theaters', result);
-        // })
     }
 }
 

@@ -1,3 +1,14 @@
 <div>
-    <span>me page</span>
+    <div class="form">
+        <h1>My Order Hisotry</h1>
+		<table border="0" cellpadding="10">
+				<tr ng-repeat="order in orders track by $index">
+<!-- 					<td><h3>{{order.Name}}</h3></td>
+					<td>{{order.Steet}}<br> {{order.City}}, {{order.State}} {{order.Zip}}</td>
+					<td><button ng-click="delete_order(order)">Delete</button>
+ -->				</tr>
+		</table>
+		<br><br>
+		<button ng-click="goto_me()">Back</button>
+    </div>
 </div>
