@@ -13,8 +13,9 @@ var insert_users = 0;
 var insert_system_info = 0;
 var insert_movie = 0;
 var insert_theater = 0;
-var insert_plays_at = 1;
-var insert_Showtime = 1;
+var insert_plays_at = 0;
+var insert_Showtime = 0;
+var insert_payment = 1;
 connection.connect();
 var system_info = {
     Cancellation_fee : 2.75,
@@ -209,4 +210,17 @@ if (insert_Showtime) {
             }
         }
     };
+};
+
+if (insert_payment) {
+    var payment_info = require('./populate_db_queries/payment_info').payment_info
+    for(var i = 0; i < payment_info.length; i++) {
+        query = connection.query('INSERT INTO PAYMENT_INFO SET ?',payment_info[i], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            console.log(result);
+        })
+        console.log(query)
+    }
 };

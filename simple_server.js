@@ -30,9 +30,17 @@ io.on('connect', function(socket) {
     socket.on('get_order_history', get_order_history_gen(socket))
     socket.on('get_now_playing', get_now_playing_gen(socket))
     socket.on('get_movie_review_avg', get_movie_review_avg_gen(socket))
+    socket.on('get_my_payment_info', get_my_payment_info_gen(socket))
 })
 
 server.listen(portNum);
+
+function get_my_payment_info_gen(socket) {
+    return function get_payment_info(data) {
+        connection.query('SELECT')
+    }
+}
+
 function get_now_playing_gen(socket) {
     return function get_now_playing(data) {
         connection.query('SELECT DISTINCT(Mtitle) FROM PLAYS_AT', null, function(err, result) {
