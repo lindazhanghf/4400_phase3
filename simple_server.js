@@ -20,12 +20,14 @@ function serverhandle(req, resp) {
 
 io.on('connect', function(socket) {
     console.log('a user connected')
-    socket.on('login', handler_gen(socket))
+    socket.on('login', login_handler_gen(socket))
 })
 
 server.listen(portNum);
-
-function handler_gen(socket) {
+function register_handler_gen(socket) {
+    return function
+}
+function login_handler_gen(socket) {
     return function login_handler(data) {
         console.log(data);
         connection.query("SELECT Password FROM USER WHERE Username = ?", [data.Username], function(err, result) {
@@ -37,8 +39,8 @@ function handler_gen(socket) {
                 return
             };
             if (result.length === 1) {
-                var password = result[0].password;
-                if (password !== data.password) {
+                var password = result[0].Password;
+                if (password !== data.Password) {
                     socket.emit('wrong_passord')
                     return
                 };
@@ -47,7 +49,7 @@ function handler_gen(socket) {
                         console.log(err);
                     };
                     if (result.length === 1) {
-                        socket.emit('is_customer')
+                        socket.emit('is_customer', data.Username)
                     } else {
                         socket.emit('is_manager')
                     }

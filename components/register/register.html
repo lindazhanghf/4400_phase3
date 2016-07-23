@@ -1,0 +1,39 @@
+<div class="login-page">
+  <div class="form">
+    <form class="login-form" name = "myForm">
+    <!-- <pre>myForm.myName = {{ myForm.Username | json }}</pre> -->
+      <span>Username:</span>
+      <input type="text" placeholder="Username" ng-model="user.Username" name="Username" ng-required="true" ng-minlength="3" ng-maxlength="30"/>
+      <div ng-messages="myForm.Username.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Username.$dirty">
+        <span ng-message="required">field required</span>
+        <span ng-message="minlength">Username should be at least 3 characters</span>
+        <span ng-message="maxlength">Username cannot be longer than 30 characters</span>
+      </div> <br>
+
+      <span>Email:</span>
+      <input type="email" placeholder="youremail@example.com" ng-model="user.Email" name="Email" ng-required="true" ng-maxlength="30"/>
+      <div ng-messages="myForm.Username.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Email.$dirty">
+        <span ng-message="required">field required</span>
+        <span ng-message="maxlength">email cannot be longer than 30 characters</span>
+        <span ng-if="!myForm.Email.$valid">invalid email</span>
+      </div> <br>
+
+      <span>Password:</span>
+      <input type="password" placeholder="Password" ng-model="user.Password" name="Password" ng-required="true"/>
+      <div ng-messages="myForm.Password.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Password.$dirty" ng-minlength="3" ng-maxlength="30">
+        <span ng-message="required">field required</span>
+        <span ng-message="minlength">Password should be at least 3 characters</span>
+        <span ng-message="maxlength">Password cannot be longer than 30 characters</span>
+      </div><br>
+
+      <span>Confirm Password:</span>
+      <input type="password" placeholder="Password" ng-model="user.confirm_password" name="confirm_password" ng-required="true"/>
+      <span style="color:red; font-size: 14px;" ng-if = "myForm.confirm_password.$dirty && user.Password !== user.confirm_password">password does not match</span> <br>
+
+      <span>Manager Password(optional):</span>
+      <input type="password" placeholder="Password" ng-model="user.manager_password" name="manager_password" />
+
+      <button ng-click="register()">register</button>
+    </form>
+  </div>
+</div>
