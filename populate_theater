@@ -1,0 +1,16 @@
+INSERT INTO THEATER SET `Theater_id` = '1', `Name` = 'Regal Cinemas Atlantic Station';
+INSERT INTO THEATER SET `Theater_id` = '2', `Name` = 'Carmike Cinemas Movies ATL';
+INSERT INTO THEATER SET `Theater_id` = '3', `Name` = 'Regal Cinemas Perimeter Pointe';
+INSERT INTO THEATER SET `Theater_id` = '4', `Name` = 'Regal Cinemas Hollywood';
+INSERT INTO THEATER SET `Theater_id` = '5', `Name` = 'NCG Cinema';
+INSERT INTO THEATER SET `Theater_id` = '6', `Name` = 'AMC Stonecrest 16';
+
+CREATE TABLE THEATER
+(
+Theater_id		INT			NOT NULL,
+Name			VARCHAR(30),
+Steet			VARCHAR(30),
+City			VARCHAR(20),
+State			VARCHAR(20),
+Zip			VARCHAR(9),
+PRIMARY KEY (Theater_id));
