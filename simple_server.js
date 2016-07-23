@@ -68,7 +68,7 @@ function add_preferred_theater_gen(socket) {
 function get_preferred_theaters_gen(socket) {
     return function get_preferred_theaters(data) {
         console.log(data);
-        connection.query('SELECT Name FROM THEATER, PREFERS WHERE User = ?, Theater_id = Tid', [data], function(err, result) {
+        connection.query('SELECT * FROM THEATER, PREFERS WHERE User = ? AND Theater_id = Tid', [data], function(err, result) {
             if (err) {
                 console.log(err);
             };
@@ -140,6 +140,17 @@ function get_movie_review_avg_gen(socket) {
         })
     }
 }
+// function get_preferred_theaters_gen(socket) {
+//     return function preferred_theaters_handler(data) {
+//         connection.query('SELECT t.Name, t.Street, t.City, t.State, t.Zip FROM THEATER AS t, PREFERS AS p WHERE p.User = ? AND t.Name = p.Tid;', [data], function(err, result) {
+//             if (err) {
+//                 console.log(err);
+//             };
+//             console.log(result);
+//             socket.emit('preferred_theaters', result);
+//         })
+//     }
+// }
 function register_handler_gen(socket) {
     return function register_handler(data) {
         console.log(data)
