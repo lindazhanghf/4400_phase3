@@ -11,11 +11,14 @@
             if (Object.keys($scope.myForm.Username.$error).length != 0 || Object.keys($scope.myForm.Password.$error).length != 0 || Object.keys($scope.myForm.Email.$error).length != 0) {
                 return;
             };
-            if ($scope.user.manager_password) {
-                socket.emit('add_customer', user);
-            } else {
-                socket.emit('add_manager', user);
-            }
+            socket.emit('register', $scope.user);
         }
+        socket.on('registered', function(data) {
+            $location.path('/login')
+        })
+        socket.on('duplicate', function(data) {
+            console.log('!')
+            alert('username or email already exits, please use another one')
+        })
     }])
 })()

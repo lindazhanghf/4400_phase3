@@ -21,11 +21,44 @@ function serverhandle(req, resp) {
 io.on('connect', function(socket) {
     console.log('a user connected')
     socket.on('login', login_handler_gen(socket))
+    socket.on('register', register_handler_gen(socket))
 })
 
 server.listen(portNum);
 function register_handler_gen(socket) {
-    return function
+    return function register_handler(data) {
+        console.log(data)
+        connection.query('SELECT Password FROM USER WHERE Username = ? OR Email = ?', [data.Username, data.Email], function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+            console.log(result);
+            if (result.length === 0) {
+                if (data.manager_password) {
+
+                } else {
+                    delete data.confirm_password
+                    connection.query('INSERT INTO USER SET ?', data, function(err, result){
+                        if (err) {
+                            console.log(err)
+                        };
+                        console.log(result)
+                        socket.emit('registered')
+                        var user = {Username: data.Username};
+                        connection.query('INSERT INTO CUSTOMER SET ?', user, function(err, result) {
+                            if (err) {
+                                console.log(err)
+                            };
+                            console.log(result);
+                        })
+                    })
+                }
+            } else {
+                console.log('duplicate!')
+                socket.emit('duplicate')
+            }
+        })
+    }
 }
 function login_handler_gen(socket) {
     return function login_handler(data) {
