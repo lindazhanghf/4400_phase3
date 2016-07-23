@@ -35,7 +35,30 @@ function register_handler_gen(socket) {
             console.log(result);
             if (result.length === 0) {
                 if (data.manager_password) {
-
+                    connection.query('SELECT Manager_password FROM SYSTEM_INFO', null, function(err, result) {
+                        var correct_manager_password = result[0].Manager_password;
+                        if (data.manager_password === correct_manager_password) {
+                            delete data.confirm_password
+                            delete data.manager_password
+                            connection.query('INSERT INTO USER SET ?', data, function(err, result){
+                                if (err) {
+                                    console.log(err)
+                                };
+                                console.log(result)
+                                socket.emit('registered')
+                                var user = {Username: data.Username};
+                                connection.query('INSERT INTO MANAGER SET ?', user, function(err, result) {
+                                    if (err) {
+                                        console.log(err)
+                                    };
+                                    console.log(result);
+                                })
+                            })
+                        } else {
+                            console.log('wrong_manager_password');
+                            socket.emit('wrong_manager_password')
+                        }
+                    })
                 } else {
                     delete data.confirm_password
                     connection.query('INSERT INTO USER SET ?', data, function(err, result){

@@ -9,8 +9,16 @@ var connection = mysql.createConnection({
     database:'4400phase3'
 })
 var get_user_names = 0;
-var insert_users = 1;
+var insert_users = 0;
+var insert_system_info = 0;
+var insert_movie = 1;
 connection.connect();
+var system_info = {
+    Cancellation_fee : 2.75,
+    Manager_password : 'Manager_password',
+    Child_discount : 0.85,
+    Senior_discount : 0.75
+}
 var managers = [
     {
       Username : 'yzhao343',
@@ -129,4 +137,24 @@ if (insert_users) {
     }
 
 };
+if (insert_system_info) {
+    query = connection.query('INSERT INTO SYSTEM_INFO SET ?', system_info, function(err, result) {
+        if (err) {
+            console.log(err)
+        };
+        console.log(result);
+    })
+}
 
+if (insert_movie) {
+    var movies = JSON.parse(fs.readFileSync('./populate_db_queries/all_movies.json', 'utf8'));
+    console.log(movies);
+    for (var i = movies.length - 1; i >= 0; i--) {
+        query = connection.query('INSERT INTO MOVIE SET ?', movies[i], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            console.log(result);
+        })
+    };
+};

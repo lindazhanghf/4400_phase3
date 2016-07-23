@@ -20,5 +20,8 @@
             console.log('!')
             alert('username or email already exits, please use another one')
         })
+        socket.on('wrong_manager_password', function(data) {
+            alert('wrong manager password');
+        })
     }])
 })()
