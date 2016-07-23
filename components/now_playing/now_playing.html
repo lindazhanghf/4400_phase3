@@ -1,5 +1,8 @@
 <div>
     <div class="form">
         <button ng-click="goto_me()">Me</button>
+        <div ng-repeat="movie in movies track by $index">
+            <h2 ng-click = get_movie(movie.Mtitle)>{{movie.Mtitle}}</h2><br>
+        </div>
     </div>
 </div>

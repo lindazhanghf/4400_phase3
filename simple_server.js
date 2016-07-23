@@ -28,13 +28,21 @@ io.on('connect', function(socket) {
     socket.on('get_preferred_theaters', get_preferred_theaters_gen(socket))
     socket.on('add_preferred_theater', add_preferred_theater_gen(socket))
     socket.on('get_order_history', get_order_history_gen(socket))
+    socket.on('get_now_playing', get_now_playing_gen(socket))
 })
 
 server.listen(portNum);
+function get_now_playing_gen(socket) {
+    return function get_now_playing(data) {
+        connection.query('SELECT DISTINCT(Mtitle) FROM PLAYS_AT', null, function(err, result) {
+            socket.emit('now_playing', result);
+        })
+    }
+}
 function get_order_history_gen(socket) {
     return function get_order_history(data) {
         console.log(data);
-        connection.query('')
+        connection.query('SELECT')
     }
 }
 function add_preferred_theater_gen(socket) {
