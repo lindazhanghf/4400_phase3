@@ -37,7 +37,15 @@ server.listen(portNum);
 
 function get_my_payment_info_gen(socket) {
     return function get_payment_info(data) {
-        connection.query('SELECT')
+        connection.query('SELECT * FROM PAYMENT_INFO WHERE User = ?', data, function(err, result) {
+            if (err) {
+                console.log(err)
+                return ;
+            };
+            console.log(result);
+            socket.emit('my_pament_info', result);
+
+        })
     }
 }
 
