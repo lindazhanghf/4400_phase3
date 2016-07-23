@@ -33,6 +33,7 @@ io.on('connect', function(socket) {
     socket.on('get_movie_review_avg', get_movie_review_avg_gen(socket))
     socket.on('get_my_payment_info', get_my_payment_info_gen(socket))
     socket.on('delete_saved_payment_info', delete_saved_payment_info_gen(socket))
+    socket.on('search_theater', search_theater_gen(socket))
 })
 
 server.listen(portNum);
@@ -173,17 +174,17 @@ function get_movie_review_avg_gen(socket) {
         })
     }
 }
-// function get_preferred_theaters_gen(socket) {
-//     return function preferred_theaters_handler(data) {
-//         connection.query('SELECT t.Name, t.Street, t.City, t.State, t.Zip FROM THEATER AS t, PREFERS AS p WHERE p.User = ? AND t.Name = p.Tid;', [data], function(err, result) {
-//             if (err) {
-//                 console.log(err);
-//             };
-//             console.log(result);
-//             socket.emit('preferred_theaters', result);
-//         })
-//     }
-// }
+function search_theater_gen(socket) {
+    return function search_theater_handler(data) {
+        connection.query('SELECT * FROM THEATER WHERE Name LIKE \'%?%\' OR State LIKE \'%?%\' OR City LIKE \'%?%\'', [data], function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+            console.log(result);
+            socket.emit('search_theater_result', result);
+        })
+    }
+}
 function register_handler_gen(socket) {
     return function register_handler(data) {
         console.log(data)

@@ -65,7 +65,7 @@
         })
         .when('/buy_ticket', {
             templateUrl: './components/buy_ticket/buy_ticket.html',
-            controller: 'buy_ticket_ctrl'
+            controller: 'Buy_ticket_ctrl'
         })
         .when('/give_review', {
             templateUrl: './components/give_review/give_review.html',
