@@ -1,9 +1,9 @@
-INSERT INTO THEATER SET `Theater_id` = '1', `Name` = 'Regal Cinemas Atlantic Station';
-INSERT INTO THEATER SET `Theater_id` = '2', `Name` = 'Carmike Cinemas Movies ATL';
-INSERT INTO THEATER SET `Theater_id` = '3', `Name` = 'Regal Cinemas Perimeter Pointe';
-INSERT INTO THEATER SET `Theater_id` = '4', `Name` = 'Regal Cinemas Hollywood';
-INSERT INTO THEATER SET `Theater_id` = '5', `Name` = 'NCG Cinema';
-INSERT INTO THEATER SET `Theater_id` = '6', `Name` = 'AMC Stonecrest 16';
+INSERT INTO THEATER SET `Theater_id` = '1', `Name` = 'Regal Cinemas Atlantic Station', 'Steet', = '261 19th St NW', 'City' = 'Atlanta', 'State' = 'GA', Zip = '30318';
+INSERT INTO THEATER SET `Theater_id` = '2', `Name` = 'Carmike Cinemas Movies ATL', 'Steet', = '931 Monroe Dr NE', 'City' = 'Atlanta', 'State' = 'GA', Zip = '30303';
+INSERT INTO THEATER SET `Theater_id` = '3', `Name` = 'Regal Cinemas Perimeter Pointe', 'Steet', = ' 1155 Mt Vernon Hwy', 'City' = 'Atlanta', 'State' = 'GA', Zip = '30442';
+INSERT INTO THEATER SET `Theater_id` = '4', `Name` = 'Regal Cinemas Hollywood', 'Steet', = '3265 NE Expy NE', 'City' = 'Atlanta', 'State' = 'GA', Zip = '30563';
+INSERT INTO THEATER SET `Theater_id` = '5', `Name` = 'NCG Cinema', 'Steet', = '3760 Princeton Lakes Pass,', 'City' = 'Atlanta', 'State' = 'GA', Zip = '30760';
+INSERT INTO THEATER SET `Theater_id` = '6', `Name` = 'AMC Stonecrest 16', 'Steet', = '2345 Cheshire Bridge Rd NE', 'City' = 'Atlanta', 'State' = 'GA', Zip = '30800';
 
 CREATE TABLE THEATER
 (

@@ -1,61 +1,44 @@
 [
   {
-    "Title": "Star Trek Beyond",
-    "Release_date": "2016-07-22",
-    "Rating" : "",
-    "Email": "elisabeth.barros@example.com"
+    "Title": "Mike and Dave Need Wedding Dates",
+    "Release_date": "2016-07-08",
+    "Rating" : "R",
+    "Length": "98",
+    "Synopsis" : "Two hard-partying brothers place an online ad to find the perfect dates for their sister's Hawaiian wedding. Hoping for a wild getaway, the boys instead find themselves out-hustled by an uncontrollable duo.",
+    "Cast" : "Jake Szymanski, Zac Efron, Adam Devine, Anna Kendrick, Aubrey Plaza"
   },
   {
-    "Title": "Ice Age: Collision Course",
-    "Release_date": "2016-07-22",
-    "Rating" : "",
-    "Email": "roberto.peña@example.com"
+    "Title": "The Purge: Election Year",
+    "Release_date": "2016-07-01",
+    "Rating" : "R",
+    "Length": "105",
+    "Synopsis" : "Years after sparing the man who killed his son, former police sergeant Barnes has become head of security for Senator Charlie Roan, a Presidential candidate targeted for death on Purge night due to her vow to eliminate the Purge.",
+    "Cast" : "James DeMonaco, Frank Grillo, Elizabeth Mitchell, Mykelti Williamson, Joseph Julian Soria"
   },
   {
-    "Title": "Lights Out",
-    "Release_date": "2016-07-22",
-    "Rating" : "",
-    "Email": "aubrey.harcourt@example.com"
+    "Title": "Central Intelligence",
+    "Release_date": "2016-06-17",
+    "Rating" : "PG-13",
+    "Length": "107",
+    "Synopsis" : "After he reconnects with an awkward pal from high school through Facebook, a mild-mannered accountant is lured into the world of international espionage.",
+    "Cast" : "Rawson Marshall Thurber, Dwayne Johnson, Kevin Hart, Danielle Nicolet, Amy Ryan"
   },
   {
-    "Title": "Absolutely Fabulous: The Movie",
-    "Release_date": "2016-07-22",
-    "Rating" : "",
-    "Email": "terrance.nichols@example.com"
-  },
-  {
-    "Title": "The Legend of Tarzan",
+    "Title": "The BFG",
     "Release_date": "2016-07-01",
     "Rating" : "",
-    "Email": "jerusa.caldeira@example.com"
+    "Length": "117",
+    "Synopsis" : "A girl named Sophie encounters the Big Friendly Giant who, despite his intimidating appearance, turns out to be a kindhearted soul who is considered an outcast by the other giants because, unlike them, he refuses to eat children.
+",
+    "Cast" : "Steven Spielberg, Mark Rylance, Ruby Barnhill, Penelope Wilton, Jemaine Clement"
   },
   {
-    "Title": "Finding Dory",
-    "Release_date": "2016-06-17",
-    "Rating" : "",
-    "Email": "bonnie.evans@example.com"
+    "Title": "Independence Day: Resurgence",
+    "Release_date": "2016-06-24",
+    "Rating" : "PG-13",
+    "Length": "120",
+    "Synopsis" : "Two decades after the first Independence Day invasion, Earth is faced with a new extra-Solar threat. But will mankind's new space defenses be enough?
+",
+    "Cast" : "Roland Emmerich, Liam Hemsworth, Jeff Goldblum, Bill Pullman, Maika Monroe"
   },
-  {
-    "Title": "Train to Busan",
-    "Release_date": "2016-07-22",
-    "Rating" : "",
-    "Email": "elisa.henry@example.com"
-  },
-  {
-    "Title": "The Secret Life of Pets",
-    "Release_date": "2016-07-08",
-    "Rating" : "",
-    "Email": "larry.jimenez@example.com"
-  },
-  {
-    "Title": "Ghostbusters",
-    "Release_date": "2016-07-15",
-    "Rating" : "",
-    "Email": "perry.russell@example.com"
-  },
-  {
-    "Title": "The Infiltrator",
-    "Release_date": "2016-07-13",
-    "Rating" : "",
-    "Email": "lisa.cunningham@example.com"
-  },
+]
