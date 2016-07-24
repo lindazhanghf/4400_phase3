@@ -35,6 +35,7 @@ io.on('connect', function(socket) {
     socket.on('delete_saved_payment_info', delete_saved_payment_info_gen(socket))
     socket.on('search_theater', search_theater_gen(socket))
     socket.on('get_showtime', get_showtime_gen(socket))
+    socket.on('get_system_info', get_system_info_gen(socket))
 })
 server.listen(portNum);
 
@@ -50,7 +51,20 @@ function format_date(date) {
     min = '00'.substring(0, 2-min.toString().length) + min
     return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':00'
 }
-
+function get_system_info_gen(socket) {
+    return function get_system_info(data) {
+        connection.query('SELECT Child_discount, Senior_discount, Ticket_price FROM SYSTEM_INFO', null, function(err, result) {
+            if (err) {
+                console.log(err)
+                return
+            };
+            console.log(result);
+            result.Child_discount = parseFloat(result.Child_discount)
+            result.Senior_discount = parseFloat(result.Senior_discount)
+            socket.emit('system_info', result[0]);
+        })
+    }
+}
 function get_showtime_gen(socket) {
     return function get_showtime(data) {
         var now = new Date();

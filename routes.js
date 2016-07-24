@@ -71,6 +71,10 @@
             templateUrl: './components/give_review/give_review.html',
             controller: 'Give_review_ctrl'
         })
+        .when('/payment_info', {
+            templateUrl:'./components/payment_info/payment_info.html',
+            controller:'Payment_info_ctrl'
+        })
 
         .otherwise({
             redirectTo: '/login'

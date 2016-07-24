@@ -10,6 +10,11 @@
             $location.path(path);
         }
         $scope.movie_info = current_user_info.movie_info;
+        current_user_info.ticket.Adult_tickets = '0'
+        current_user_info.ticket.Child_tickets = '0'
+        current_user_info.ticket.Senior_tickets = '0'
+        $scope.ticket = current_user_info.ticket
+
         socket.emit('get_showtime', showTime_pass_in)
         $scope.date_selected = "";
         socket.on('showtimes', function(dates) {
@@ -24,15 +29,15 @@
                     $scope.date[month_day] = [];
                 }
                 $scope.date[month_day].push(hour_min)
-                // if (index === 0) {
-                //     $scope.date_selected = month_day;
-                //     $scope.hour_mins = $scope.date[month_day]
-                // }
             })
             console.log(JSON.stringify($scope.date, null, 2))
 
         })
-
+        socket.emit('get_system_info')
+        socket.on('system_info', function(data) {
+            console.log(data);
+            $scope.price_info = data;
+        })
         $scope.select_date = function(date) {
             $scope.date_selected = date;
             $scope.hour_mins =$scope.date[date];
@@ -43,19 +48,14 @@
             current_user_info.ticket.Time = time
             current_user_info.ticket.Mtitle = current_user_info.movie.Title
         }
-        $scope.get_date_style = function(key) {
-            if ($scope.date_selected == key) {
-                return 'background: #2c6a2f'
-            } else {
-                return '';
-            }
-        }
-        $scope.get_time_style = function(key) {
-            if ($scope.selected_time == key) {
-                return 'background: #2c6a2f'
-            } else {
-                return '';
-            }
+        $scope.pay = function() {
+            if (current_user_info.ticket.Adult_tickets + current_user_info.ticket.Child_tickets + current_user_info.ticket.Senior_tickets == 0) {
+                return
+            };
+            current_user_info.ticket.Adult_tickets = parseInt(current_user_info.ticket.Adult_tickets)
+            current_user_info.ticket.Child_tickets = parseInt(current_user_info.ticket.Child_tickets)
+            current_user_info.ticket.Senior_tickets = parseInt(current_user_info.ticket.Senior_tickets)
+            $scope.goto('/payment_info')
         }
         function format_date(date) {
             var year = date.getFullYear();

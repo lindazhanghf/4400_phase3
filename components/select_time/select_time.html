@@ -34,7 +34,48 @@
     </div>
     <div ng-show="date_selected && selected_time">
         <h3>How many ticket?</h3>
+        <div>
+            <span>Adult ticket  </span>
+            <select name="Adult ticket" ng-model=ticket.Adult_tickets>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <span> * ${{price_info.Ticket_price}} = ${{ticket.Adult_tickets * price_info.Ticket_price}}</span>
+        </div>
+        <div>
+        <span>Senior ticket</span>
+            <select name="Senior ticket" ng-model=ticket.Senior_tickets>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <span> * ${{price_info.Ticket_price}} * {{price_info.Senior_discount}} = ${{ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount}}</span>
+        </div>
+        <div>
+        <span>Child ticket  </span>
+            <select name="Child ticket" ng-model=ticket.Child_tickets>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <span> * ${{price_info.Ticket_price}} * {{price_info.Child_discount}} = ${{ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount}}</span>
+        </div>
+        <span>sum: ${{ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount + ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount + ticket.Adult_tickets * price_info.Ticket_price}}</span>
+        <br>
 
+    </div>
+    <div>
+        <button ng-click="pay()">Pay</button> <br>
     </div>
     <div>
         <button ng-click="goto('/buy_ticket')">Back</button> <br>
