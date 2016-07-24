@@ -1,3 +1,25 @@
 <div>
-    <span>buy ticket</span>
+    <div class="form">
+        <h1>Select Theater</h1>
+		<table border="0" cellpadding="8">
+			<tr>
+				<td><h3>Saved Theater</h3></td>
+				<td><div>
+		            <select name="Rating" ng-model="select.Tid" ng-repeat="theater in preferred_theaters track by $index">
+		                <option value=theater.Tid>{{theater.Name}}</option>
+		            </select>
+    		    </div></td>
+				<td><button ng-click="select_theater()">Select</button>
+			</tr>
+			<tr>
+				<td><h3>Search Theater</h3></td>
+				<td><form name = "myForm">
+					<input name="search_word" placeholder="City/State/Theater name" ng-model="review.Title" ng-required="true">
+				</td>
+				<td><button ng-click="search_theater(search_word)">Search</button>
+			</tr>
+		</table>
+		<br><br>
+		<button ng-click="goto_me()">Back</button>
+    </div>
 </div>
