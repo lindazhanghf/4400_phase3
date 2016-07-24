@@ -22,8 +22,8 @@ var insert_payment_rand = 0
 var insert_may_june_movie = 0;
 var insert_new_plays_at_true = 0;
 var insert_new_plays_at_false = 0;
-var insert_Showtime_new = 0;
-var insert_preferred_theaters = 1;
+var insert_Showtime_new = 1;
+var insert_preferred_theaters = 0;
 
 connection.connect();
 var system_info = {
@@ -329,8 +329,8 @@ if (insert_new_plays_at_false) {
     })
 };
 function format_date(date) {
-    var year = date.getFullYear()
-    var month = date.getMonth()
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
     var day = date.getDate();
     month = '00'.substring(0, 2-month.toString().length) + month
     return year + '-' + month + '-' + day + ' '
@@ -344,6 +344,7 @@ if (insert_Showtime_new) {
         for(var i = 0; i < result.length; i++) {
             var info = result[i]
             var date = new Date(info.Release_date.toString())
+            console.log('Release_date: ' + date)
             for(var j = 0; j < 7; j++) {
                 date.setDate(date.getDate() + 1)
                 console.log(date);
@@ -351,6 +352,7 @@ if (insert_Showtime_new) {
                 for (var k = show_times.length - 1; k >= 0; k--) {
                     for(var Tid = 1; Tid < 7; Tid++) {
                         var show_time = {Tid:Tid, Mtitle:info.Title, Showtime:format_date(date) + show_times[k] + ':00:00'}
+                        console.log(show_time);
                         connection.query('INSERT INTO SHOWTIME SET ?', show_time, function(err, result) {
                             if (err) {
                                 console.log(err)
@@ -364,6 +366,7 @@ if (insert_Showtime_new) {
         }
     })
 };
+
 
 if (insert_preferred_theaters) {
     connection.query("SELECT * FROM CUSTOMER", null, function(err, result) {
