@@ -206,8 +206,8 @@ function get_movie_review_avg_gen(socket) {
     }
 }
 function search_theater_gen(socket) {
-    return function search_theater_handler(data) {
-        connection.query('SELECT * FROM THEATER WHERE Name LIKE \'%?%\' OR State LIKE \'%?%\' OR City LIKE \'%?%\'', [data], function(err, result) {
+    return function search_theater_handler(keyword) {
+        connection.query('SELECT * FROM THEATER WHERE Name LIKE ? OR State LIKE ? OR City LIKE ?', [keyword, keyword, keyword], function(err, result) {
             if (err) {
                 console.log(err);
             };

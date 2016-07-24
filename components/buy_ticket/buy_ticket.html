@@ -10,19 +10,30 @@
 						<option ng-repeat="theater in preferred_theaters track by $index" value="{{theater.Tid}}">{{theater.Name}}</option>
 					</select>
 				</div></td>
-				<td><button ng-click="select_theater()">Select</button>
+				<td><button ng-click="select_theater()" ng-disabled="select.Tid==0">Select</button>
 			</div>
 			</tr>
 			<tr>
 				<td><h3>Search Theater</h3></td>
 				<td><form name = "myForm">
-					<input placeholder="City/State/Theater name" ng-model="{{search.Keyword}}" ng-required="true">
+					<input placeholder="City/State/Theater name" ng-model="search.Keyword" ng-required="true" ng-trim="true">
 				</td>
 				<td><button ng-click="search_theater()">Search</button>
 			</tr>
+		</table>
+		<div ng-show="search.Result[0]">
+			<span><b>Search Results:</b></span><br>
+			<span>Check the theaters you want to save for preferred theaters</span>
+		</div>
+		<table border="0" cellpadding="8">
 			<tr ng-repeat="theater in search.Result track by $index">
-				<td><h3>{{theater.Name}}</h3></td>
-				<td>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</td>
+				<td style="width:20px">
+					<form name='theaterCheck'>
+						<input type="checkbox" ng-model="theater.Saved"></input>
+					</form>
+				</td>
+				<td><b>{{theater.Name}}</b></td>
+				<td><span>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</span>
 				<td><button ng-click="select_theater(theater)">Select</button>
 			</tr>
 		</table>
