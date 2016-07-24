@@ -1,6 +1,9 @@
 <div>
-    <button ng-click="goto_me()">Me</button>
-    <button ng-click="logout()">logout</button>
+    <div>
+        <button ng-click="goto_me()">Me</button>
+        <button ng-click="logout()">logout</button>
+    </div>
+
     <div class="form">
         <h1>Now playing</h1>
         <div ng-repeat="movie in movies track by $index">

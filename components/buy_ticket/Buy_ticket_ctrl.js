@@ -9,7 +9,7 @@
             $scope.preferred_theaters = data;
             console.log("preferred_theaters: ", data)
         })
-        function goto(path) {
+        $scope.goto = function(path) {
             $location.path(path);
         }
         $scope.select_theater = function() {

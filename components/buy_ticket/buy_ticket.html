@@ -3,6 +3,7 @@
         <h1>Select Theater</h1>
 		<table border="0" cellpadding="8">
 			<tr>
+			<div ng-show="preferred_theaters.length">
 				<td><h3>Saved Theater</h3></td>
 				<td><div>
 		            <select name="Rating" ng-model="select.Tid" ng-repeat="theater in preferred_theaters track by $index">
@@ -10,6 +11,7 @@
 		            </select>
     		    </div></td>
 				<td><button ng-click="select_theater()">Select</button>
+			</div>
 			</tr>
 			<tr>
 				<td><h3>Search Theater</h3></td>
@@ -20,6 +22,6 @@
 			</tr>
 		</table>
 		<br><br>
-		<button ng-click="goto_me()">Back</button>
+		<button ng-click="goto('/me')">Back</button>
     </div>
 </div>

@@ -64,7 +64,7 @@ function get_my_payment_info_gen(socket) {
 
 function get_now_playing_gen(socket) {
     return function get_now_playing(data) {
-        connection.query('SELECT DISTINCT(Mtitle) FROM PLAYS_AT', null, function(err, result) {
+        connection.query('SELECT DISTINCT(Mtitle) FROM PLAYS_AT WHERE Playing = true', null, function(err, result) {
             socket.emit('now_playing', result);
         })
     }

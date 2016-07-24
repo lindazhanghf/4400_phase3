@@ -20,7 +20,11 @@ var insert_payment = 0;
 var insert_payment_rand = 0
 // var insert_order = 1;
 var insert_may_june_movie = 0;
-var insert_new_plays_at = 1;
+var insert_new_plays_at_true = 0;
+var insert_new_plays_at_false = 0;
+var insert_Showtime_new = 0;
+var insert_preferred_theaters = 1;
+
 connection.connect();
 var system_info = {
     Cancellation_fee : 2.75,
@@ -281,16 +285,107 @@ if (insert_may_june_movie) {
     }
 };
 
-if (insert_new_plays_at) {
+if (insert_new_plays_at_true) {
     connection.query("SELECT Title, Release_date FROM MOVIE WHERE Release_date > '2016-07-16'", null, function(err, result) {
         if (err) {
             console.log(err)
             return;
         };
         console.log(result);
-        for(var i = 1; i < 7; i++) {
-            var plays_at =
-            connection.query('INSERT INTO PLAYS_AT SET ?')
+        for(var i = 0; i < result.length; i++) {
+            for(var j = 1; j < 7; j++) {
+                var plays_at = {Tid:j, Mtitle:result[i].Title, Playing:true}
+                connection.query('INSERT INTO PLAYS_AT SET ?', plays_at, function(err, result) {
+                    if (err) {
+                        console.log(err)
+                        return
+                    }
+                    console.log(result);
+                })
+            }
         }
+    })
+};
+
+if (insert_new_plays_at_false) {
+    connection.query("SELECT Title, Release_date FROM MOVIE WHERE Release_date < '2016-07-16'", null, function(err, result) {
+        if (err) {
+            console.log(err)
+            return;
+        };
+        console.log(result);
+        for(var i = 0; i < result.length; i++) {
+            for(var j = 1; j < 7; j++) {
+                var plays_at = {Tid:j, Mtitle:result[i].Title, Playing:false}
+                connection.query('INSERT INTO PLAYS_AT SET ?', plays_at, function(err, result) {
+                    if (err) {
+                        console.log(err)
+                        return
+                    }
+                    console.log(result);
+                })
+            }
+        }
+    })
+};
+function format_date(date) {
+    var year = date.getFullYear()
+    var month = date.getMonth()
+    var day = date.getDate();
+    month = '00'.substring(0, 2-month.toString().length) + month
+    return year + '-' + month + '-' + day + ' '
+}
+if (insert_Showtime_new) {
+    connection.query("SELECT Title, Release_date FROM MOVIE", null, function(err, result) {
+        if (err) {
+            console.log(err)
+            return;
+        };
+        for(var i = 0; i < result.length; i++) {
+            var info = result[i]
+            var date = new Date(info.Release_date.toString())
+            for(var j = 0; j < 7; j++) {
+                date.setDate(date.getDate() + 1)
+                console.log(date);
+                var show_times = ['10', '12', '14', '16', '18', '20', '22']
+                for (var k = show_times.length - 1; k >= 0; k--) {
+                    for(var Tid = 1; Tid < 7; Tid++) {
+                        var show_time = {Tid:Tid, Mtitle:info.Title, Showtime:format_date(date) + show_times[k] + ':00:00'}
+                        connection.query('INSERT INTO SHOWTIME SET ?', show_time, function(err, result) {
+                            if (err) {
+                                console.log(err)
+                                return
+                            };
+                            console.log(result)
+                        })
+                    }
+                };
+            }
+        }
+    })
+};
+
+if (insert_preferred_theaters) {
+    connection.query("SELECT * FROM CUSTOMER", null, function(err, result) {
+        if (err) {
+            console.log(err)
+            return;
+        };
+        for (var i = result.length - 1; i >= 0; i--) {
+            var username = result[i].Username;
+            if (Math.random()<0.2) {
+                return
+            }
+            var Tid = Math.round(1 + Math.random() * 5);
+            console.log(Tid);
+            var perfer = {Tid: Tid, User:username}
+            connection.query('INSERT INTO PREFERS SET ?', perfer, function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return
+                };
+                console.log(result)
+            })
+        };
     })
 };
