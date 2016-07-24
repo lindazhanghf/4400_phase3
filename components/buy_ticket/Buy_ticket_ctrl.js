@@ -3,7 +3,7 @@
     angular.module('GT_Movie.controller')
     .controller('Buy_ticket_ctrl', ['$scope', 'socket', 'current_user_info', '$location', function($scope, socket, current_user_info, $location) {
         $scope.select = {};
-        $scope.select.Tid = 1;
+        $scope.select.Tid = 0;
         $scope.search = {};
         $scope.search.Result = [];
         socket.emit('get_preferred_theaters', current_user_info.user.Username);
@@ -20,7 +20,7 @@
             if (theater == undefined)
                 current_user_info.ticket.Tid = $scope.select.Tid;
             else
-                current_user_info.ticket.Tid = theater.Tid;
+                current_user_info.ticket.Tid = theater.Theater_id;
             console.log('Buy ticket: ' + current_user_info.user.Username + " select " + current_user_info.ticket.Tid)
             $location.path('/select_time')
         }
