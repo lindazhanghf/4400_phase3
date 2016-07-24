@@ -5,7 +5,6 @@
         $scope.select = {};
         $scope.select.Tid = 1;
         $scope.search = {};
-        $scope.search.Keyword = '';
         $scope.search.Result = [];
         socket.emit('get_preferred_theaters', current_user_info.user.Username);
         socket.on('preferred_theaters', function(data) {
@@ -26,11 +25,12 @@
             $location.path('/select_time')
         }
         $scope.search_theater = function() {
-            socket.emit('search_theater', $scope.search.Keyword)
-            console.log('Buy ticket: ' + current_user_info.user.Username + ' search ' + search_word )
+            var keyword = '%' + $scope.search.Keyword + '%';
+            console.log('search_theater: ' + current_user_info.user.Username + ' search ' + keyword )
+            socket.emit('search_theater', keyword)
         }
         socket.on('search_theater_result', function(data) {
-            $scope.search_theater_result = data;
+            $scope.search.Result = data;
             console.log('search_result:\n', data)
         })
     }])

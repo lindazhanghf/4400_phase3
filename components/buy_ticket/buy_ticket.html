@@ -16,13 +16,13 @@
 			<tr>
 				<td><h3>Search Theater</h3></td>
 				<td><form name = "myForm">
-					<input placeholder="City/State/Theater name" ng-model="{{search.Keyword}}" ng-required="true">
+					<input placeholder="City/State/Theater name" ng-model="search.Keyword" ng-required="true" ng-trim="true">
 				</td>
 				<td><button ng-click="search_theater()">Search</button>
 			</tr>
 			<tr ng-repeat="theater in search.Result track by $index">
-				<td><h3>{{theater.Name}}</h3></td>
-				<td>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</td>
+				<td><b>{{theater.Name}}</b></td>
+				<td><span>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</span>
 				<td><button ng-click="select_theater(theater)">Select</button>
 			</tr>
 		</table>
