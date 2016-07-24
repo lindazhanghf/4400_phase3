@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 .form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
+  background: #2c6a2f;
 }
 .form .message {
   margin: 15px 0 0;

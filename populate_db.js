@@ -345,7 +345,7 @@ if (insert_Showtime_new) {
             var info = result[i]
             var date = new Date(info.Release_date.toString())
             console.log('Release_date: ' + date)
-            for(var j = 0; j < 7; j++) {
+            for(var j = 7; j < 20; j++) {
                 date.setDate(date.getDate() + 1)
                 console.log(date);
                 var show_times = ['10', '12', '14', '16', '18', '20', '22']

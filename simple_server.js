@@ -56,7 +56,7 @@ function get_showtime_gen(socket) {
         var now = new Date();
         var time = format_date(now);
         var day_later = new Date()
-        day_later.setDate(day_later.getDate() + 4);
+        day_later.setDate(day_later.getDate() + 8);
         connection.query('SELECT Showtime FROM SHOWTIME WHERE Mtitle = ? AND Tid = ? AND Showtime > ? AND Showtime < ?', [data.Mtitle, data.Tid, time, day_later], function(err, result) {
             if (err) {
                 console.log(err)

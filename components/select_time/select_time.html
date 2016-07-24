@@ -1,6 +1,11 @@
 <div class="form">
     <div>
-    <h2>{{Title}}</h2>
+    <h3>Movie title: {{movie_info.Title}}</h3>
+    <h3>Release Date: {{movie_info.Release_date.substring(0, 10)}}</h3>
+    <h3>Rating: {{movie_info.Rating}}</h3>
+    <h3>Length: {{movie_info.Length.substring(0, movie_info.Length.length - 2)}} min</h3>
+    <h3>Genre: {{movie_info.Genre}}</h3>
+    <h3>Fan rating: {{movie_info.fan_rating}}</h3>
     <span>Avaliable date:</span>
         <table border="0">
             <tr>
@@ -15,9 +20,23 @@
         <table border="0">
             <tr>
                 <td ng-repeat="day in hour_mins track by $index">
-                    <button>{{day.substring(0, 5)}}</button>
+                    <button ng-click="select_time(day)">{{day.substring(0, 5)}}</button>
                 </td>
             </tr>
         </table>
+    </div>
+
+    <div>
+        <h3>Selected Date: {{date_selected}}</h3>
+    </div>
+    <div>
+        <h3>Selected Time: {{selected_time}}</h3>
+    </div>
+    <div ng-show="date_selected && selected_time">
+        <h3>How many ticket?</h3>
+
+    </div>
+    <div>
+        <button ng-click="goto('/buy_ticket')">Back</button> <br>
     </div>
 </div>
