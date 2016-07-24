@@ -55,12 +55,15 @@ function get_showtime_gen(socket) {
     return function get_showtime(data) {
         var now = new Date();
         var time = format_date(now);
-        connection.query('SELECT Showtime FROM SHOWTIME WHERE Mtitle = ? AND Tid = ? AND Showtime > ?', [data.Mtitle, data.Tid, time], function(err, result) {
+        var day_later = new Date()
+        day_later.setDate(day_later.getDate() + 4);
+        connection.query('SELECT Showtime FROM SHOWTIME WHERE Mtitle = ? AND Tid = ? AND Showtime > ? AND Showtime < ?', [data.Mtitle, data.Tid, time, day_later], function(err, result) {
             if (err) {
                 console.log(err)
                 return
             };
             console.log(result);
+            socket.emit('showtimes', result)
         })
     }
 }
