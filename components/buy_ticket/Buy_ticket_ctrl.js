@@ -14,7 +14,7 @@
         }
         $scope.select_theater = function() {
             current_user_info.ticket = {};
-            current_user_info.ticket.Tid = select.Tid;
+            current_user_info.ticket.Tid = $scope.select.Tid;
             console.log('Buy ticket: ' + current_user_info.user.Username + " select " + current_user_info.ticket.Tid)
             $location.path('/select_time')
         }
