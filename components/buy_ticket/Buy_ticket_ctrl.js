@@ -19,8 +19,15 @@
             current_user_info.ticket = {};
             if (theater == undefined)
                 current_user_info.ticket.Tid = $scope.select.Tid;
-            else
+            else {
                 current_user_info.ticket.Tid = theater.Theater_id;
+            }
+            $scope.search.Result.forEach(function(theater) {
+                if (theater.Saved) {
+                    var preferred_relationship = {User: current_user_info.user.Username, Tid: theater.Theater_id.toString()}
+                    socket.emit('add_preferred_theater', preferred_relationship);
+                }
+            })
             console.log('Buy ticket: ' + current_user_info.user.Username + " select " + current_user_info.ticket.Tid)
             $location.path('/select_time')
         }

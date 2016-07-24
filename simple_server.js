@@ -106,9 +106,9 @@ function get_order_history_gen(socket) {
     }
 }
 function add_preferred_theater_gen(socket) {
-    return function add_preferred_theater(data) {
+    return function add_preferred_theater_handler(data) {
         console.log(data);
-        connection.query('INSERT INTO PREFERS SET ?'[data], function(err, result) {
+        connection.query('INSERT INTO PREFERS SET ?', data, function(err, result) {
             if (err) {
                 console.log(err)
             };
