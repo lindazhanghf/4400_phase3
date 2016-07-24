@@ -34,9 +34,37 @@ io.on('connect', function(socket) {
     socket.on('get_my_payment_info', get_my_payment_info_gen(socket))
     socket.on('delete_saved_payment_info', delete_saved_payment_info_gen(socket))
     socket.on('search_theater', search_theater_gen(socket))
+    socket.on('get_showtime', get_showtime_gen(socket))
 })
-
 server.listen(portNum);
+
+function format_date(date) {
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+
+    month = '00'.substring(0, 2-month.toString().length) + month
+    hour = '00'.substring(0, 2-hour.toString().length) + hour
+    min = '00'.substring(0, 2-min.toString().length) + min
+    return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':00'
+}
+
+function get_showtime_gen(socket) {
+    return function get_showtime(data) {
+        var now = new Date();
+        var time = format_date(now);
+        connection.query('SELECT Showtime FROM SHOWTIME WHERE Mtitle = ? AND Tid = ? AND Showtime > ?', [data.Mtitle, data.Tid, time], function(err, result) {
+            if (err) {
+                console.log(err)
+                return
+            };
+            console.log(result);
+        })
+    }
+}
+
 function delete_saved_payment_info_gen(socket) {
     return function delete_saved_payment_info(data) {
         connection.query('UPDATE PAYMENT_INFO SET Saved = false WHERE Card_number = ?', [data.Card_number], function(err, result) {
