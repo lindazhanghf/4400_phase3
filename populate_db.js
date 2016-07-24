@@ -15,7 +15,12 @@ var insert_movie = 0;
 var insert_theater = 0;
 var insert_plays_at = 0;
 var insert_Showtime = 0;
-var insert_payment = 1;
+var insert_Showtime_3_month = 0;
+var insert_payment = 0;
+var insert_payment_rand = 0
+// var insert_order = 1;
+var insert_may_june_movie = 0;
+var insert_new_plays_at = 1;
 connection.connect();
 var system_info = {
     Cancellation_fee : 2.75,
@@ -82,7 +87,7 @@ if (get_user_names) {
             return deferred.promise;
         })
     }
-    queue = queue.then(function() {
+    var queue = queue.then(function() {
         var deferred = Q.defer();
         console.log('!!!')
         fs.writeFile('./all_users.json', JSON.stringify(users, null, 2), function(e) {
@@ -187,29 +192,34 @@ if (insert_plays_at) {
         })
     };
 };
-var days = ['22','23','24','25','26']
-if (insert_Showtime) {
-    var movies = JSON.parse(fs.readFileSync('./populate_db_queries/insert_Showtime.json', 'utf8'));
-    console.log(movies);
-    for (var i = movies.length - 1; i >= 0; i--) {
-        months = '2016-07-';
-        for (var j = 0; j <= days.length-1; j++) {
-            day = months + days[j]
-            for (var k = 0; k < 5; k++) {
-                hour = Math.floor((Math.random() * 12) + 10);
-                minute = Math.floor((Math.random() * 60));
-                timeStamp = day + ' ' + hour.toString() + ':' + minute.toString() + ':00';
+// var days = ['22','23','24','25','26']
+// if (insert_Showtime) {
+//     var movies = JSON.parse(fs.readFileSync('./populate_db_queries/insert_Showtime.json', 'utf8'));
+//     console.log(movies);
+//     for (var i = movies.length - 1; i >= 0; i--) {
+//         var months = '2016-07-';
+//         for (var j = 0; j <= days.length-1; j++) {
+//             var day = months + days[j]
+//             for (var k = 0; k < 5; k++) {
+//                 var hour = Math.floor((Math.random() * 12) + 10);
+//                 var minute = Math.floor((Math.random() * 60));
+//                 var timeStamp = day + ' ' + hour.toString() + ':' + minute.toString() + ':00';
 
-                movies[i].Showtime = timeStamp;
-                query = connection.query('INSERT INTO SHOWTIME SET ?', movies[i], function(err, result) {
-                    if (err) {
-                        console.log(err)
-                    };
-                    console.log(result);
-                })
-            }
-        }
-    };
+//                 var movies[i].Showtime = timeStamp;
+//                 var query = connection.query('INSERT INTO SHOWTIME SET ?', movies[i], function(err, result) {
+//                     if (err) {
+//                         console.log(err)
+//                     };
+//                     console.log(result);
+//                 })
+//             }
+//         }
+//     };
+// };
+
+if (insert_Showtime_3_month) {
+    days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+    month = [5,6,7]
 };
 
 if (insert_payment) {
@@ -223,4 +233,64 @@ if (insert_payment) {
         })
         console.log(query)
     }
+};
+
+// if (insert_order) {
+    // var queue = Q();
+    // queue
+    // .then(function() {
+    //     var deferred = Q.defer();
+    //     connection.query('SELECT * FROM CUSTOMER', null, function(err, result) {
+    //         if (err) {
+    //             throw(err)
+    //         };
+    //         deferred.resolve(result);
+    //     })
+    //     return deferred.promise;
+    // })
+    // .then(function(users) {
+    //     var deferred = Q.defer();
+    //     connection.query('SELECT * FROM SHOWTIME', null, function(err, result) {
+    //         if (err) {
+    //             throw(err)
+    //         }
+    //         deferred.resolve({users: users, showtime:result})
+    //     })
+    //     return deferred.promise;
+    // }).then(function(info) {
+    //     var deferred = Q.defer()
+    //     console.log(info)
+    //     return deferred.promise
+    // })
+    // .fail(function(err) {
+    //     console.log('failed!')
+    //     console.log('err')
+    // })
+// };
+
+if (insert_may_june_movie) {
+    var may_june_movies = require('./populate_db_queries/payment_info').may_june_movies;
+    for(var i = 0; i < may_june_movies.length; i++) {
+        query = connection.query('INSERT INTO MOVIE SET ?',may_june_movies[i], function(err, result) {
+            if (err) {
+                console.log(err)
+            };
+            console.log(result);
+        })
+        console.log(query)
+    }
+};
+
+if (insert_new_plays_at) {
+    connection.query("SELECT Title, Release_date FROM MOVIE WHERE Release_date > '2016-07-16'", null, function(err, result) {
+        if (err) {
+            console.log(err)
+            return;
+        };
+        console.log(result);
+        for(var i = 1; i < 7; i++) {
+            var plays_at =
+            connection.query('INSERT INTO PLAYS_AT SET ?')
+        }
+    })
 };
