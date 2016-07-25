@@ -41,6 +41,9 @@
 .form button:hover,.form button:active,.form button:focus {
   background: #3b8e3f;
 }
+.form button:disabled {
+  background: #626762;
+}
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;

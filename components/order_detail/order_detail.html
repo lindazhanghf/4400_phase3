@@ -1,3 +1,29 @@
 <div class = "form">
-    <h2>order detial</h2>
+    <h2>Order Detail</h2>
+    <h3>Movie name: {{detail.Title}}</h3>
+    <h3>Rating: {{detail.Rating}}</h3>
+    <h3>Length: {{detail.Length}} min</h3>
+    <h3>Date: {{detail.Date.substring(0, 11)}}</h3>
+    <h3>Time: {{detail.Time.substring(0, 5)}}</h3>
+    <br><br>
+    <h3>{{detail.Name}}</h3>
+    <span>Location: {{detail.Steet}}, {{detail.City}}, {{detail.State}} {{' ' + detail.Zip}}<br></span>
+
+    <span ng-show="detail.Adult_tickets">Adult: {{detail.Adult_tickets}}<br></span>
+
+    <span ng-show="detail.Senior_tickets">Senior: {{detail.Senior_tickets}}<br></span>
+
+    <span ng-show="detail.Child_tickets">Senior: {{detail.Child_tickets}}<br></span>
+
+    <span>Total cost: {{detail.Total_cost}}</span>
+    <button>cancel</button>
+    <br>
+    <button ng-click="goto('/order_history')">back</button>
+
+
+
+
+
+
+
 </div>

@@ -38,9 +38,22 @@ io.on('connect', function(socket) {
     socket.on('get_system_info', get_system_info_gen(socket))
     socket.on('pay_using_saved_card', pay_using_saved_card_gen(socket))
     socket.on('pay_using_new_card', pay_using_new_card_gen(socket))
+    socket.on('get_order_detail', get_order_detail_gen(socket))
 })
 server.listen(portNum);
-
+function get_order_detail_gen(socket) {
+    return function get_order_detail(Order_id) {
+        console.log(Order_id)
+        connection.query('SELECT Title, Rating, Length, Date, Time, Status, Name, Steet, City, State, Zip, Adult_tickets, Senior_tickets, Child_tickets, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM THEATER, ORDERS, MOVIE, SYSTEM_INFO WHERE Order_id = ? AND Title = Mtitle AND Tid = Theater_id', [Order_id], function(err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            console.log(result);
+            socket.emit('order_detail', result[0])
+        })
+    }
+}
 function pay_using_new_card_gen(socket) {
     return function pay_using_new_card(info) {
         console.log(info);

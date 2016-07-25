@@ -23,7 +23,7 @@
                 return;
             };
             console.log($scope.selected_order_id)
-            current_user_info.want_detail_order = $scope.selected_order_id
+            current_user_info.want_detail_order = parseInt($scope.selected_order_id)
             $scope.goto('/order_detail');
         }
 
