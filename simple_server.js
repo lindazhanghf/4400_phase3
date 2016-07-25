@@ -38,7 +38,12 @@ io.on('connect', function(socket) {
     socket.on('get_system_info', get_system_info_gen(socket))
     socket.on('pay_using_saved_card', pay_using_saved_card_gen(socket))
     socket.on('pay_using_new_card', pay_using_new_card_gen(socket))
+<<<<<<< HEAD
     socket.on('get_order_detail', get_order_detail_gen(socket))
+=======
+    socket.on('get_popular_movie_report', get_popular_movie_report_gen(socket))
+    socket.on('get_revenue_report', get_revenue_report_gen(socket))
+>>>>>>> 29876cdc30bc4f46946a0ccf44823f459974835c
 })
 server.listen(portNum);
 function get_order_detail_gen(socket) {
@@ -377,10 +382,32 @@ function search_theater_gen(socket) {
         })
     }
 }
+function get_popular_movie_report_gen(socket) { //TODO
+    return function get_popular_movie_report_handler(keyword) {
+        connection.query('SELECT * FROM THEATER WHERE Name LIKE ? OR State LIKE ? OR City LIKE ? OR Zip LIKE ?', null, function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+            console.log(result);
+            socket.emit('popular_movie_report', result);
+        })
+    }
+}
+function get_revenue_report_gen(socket) { //TODO
+    return function get_revenue_report_handler(keyword) {
+        connection.query('TODO', [keyword, keyword, keyword, keyword], function(err, result) {
+            if (err) {
+                console.log(err);
+            };
+            console.log(result);
+            socket.emit('revenue_report', result);
+        })
+    }
+}
 function register_handler_gen(socket) {
     return function register_handler(data) {
         console.log(data)
-        connection.query('SELECT Password FROM USER WHERE Username = ? OR Email = ?', [data.Username, data.Email], function(err, result) {
+        connection.query('SELECT Password FROM USER WHERE Username = ? OR Email = ?', null, function(err, result) {
             if (err) {
                 console.log(err);
             };

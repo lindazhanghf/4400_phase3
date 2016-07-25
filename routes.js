@@ -55,6 +55,10 @@
             templateUrl: './components/select_time/select_time.html',
             controller: 'Select_time_ctrl'
         })
+        .when('/manager_view', {
+            templateUrl: './components/manager_view/manager_view.html',
+            controller: 'Manager_view_ctrl'
+        })
         .when('/view_popular_movie_report', {
             templateUrl: './components/view_popular_movie_report/view_popular_movie_report.html',
             controller: 'View_popular_movie_report_ctrl'

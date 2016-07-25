@@ -24,6 +24,7 @@
         })
         socket.on('is_manager', function() {
             console.log('is_manager')
+            goto('/manager_view')
         })
         socket.on('wrong_passord', function() {
             alert('check your password')
