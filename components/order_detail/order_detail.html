@@ -3,7 +3,7 @@
     <h3>Movie name: {{detail.Title}}</h3>
     <h3>Rating: {{detail.Rating}}</h3>
     <h3>Length: {{detail.Length}} min</h3>
-    <h3>Date: {{detail.Date.substring(0, 11)}}</h3>
+    <h3>Date: {{detail.Date.substring(0, 10)}}</h3>
     <h3>Time: {{detail.Time.substring(0, 5)}}</h3>
     <br><br>
     <h3>{{detail.Name}}</h3>
@@ -15,10 +15,19 @@
 
     <span ng-show="detail.Child_tickets">Senior: {{detail.Child_tickets}}<br></span>
 
-    <span>Total cost: {{detail.Total_cost}}</span>
-    <button>cancel</button>
+    <span>Total cost: {{detail.Total_cost|currency}} <br></span>
+    <span>Status: {{detail.Status}} <br> </span>
     <br>
-    <button ng-click="goto('/order_history')">back</button>
+    <div>
+        <button ng-disabled="detail.Status == 'cancelled' || detail.Status == 'finished'" ng-click="cancel()">cancel</button>
+        <span ng-show="detail.Status == 'cancelled' || detail.Status == 'finished'" style="color:red; font-size: 14px;" >cannot cancel</span>
+    </div>
+
+    <br>
+    <div>
+        <button ng-click="goto('/order_history')">back</button>
+    </div>
+
 
 
 

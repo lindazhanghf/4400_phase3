@@ -6,8 +6,8 @@
         socket.on('preferred_theaters', function(data) {
             $scope.theaters = data;
         })
-        $scope.goto_me = function(path) {
-            $location.path('/me');
+        $scope.goto = function(path) {
+            $location.path(path);
         }
         $scope.delete_theater = function(theater) {
         	var deletedTheater = {User:current_user_info.user.Username, Tid : theater.Tid}

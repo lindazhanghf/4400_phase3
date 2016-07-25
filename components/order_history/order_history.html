@@ -1,6 +1,19 @@
 <div>
     <div class="form">
         <h1>My Order Hisotry</h1>
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <form name="myForm">
+                            <input type="text" name="searchInput" ng-model="search_word"/>
+                        </form>
+                    </td>
+                    <td> <button ng-click="search()">Search</button> </td>
+                </tr>
+            </table>
+
+        </div>
 		<table border="0" cellpadding="10">
             <tr>
                 <td>Select</td>
@@ -12,7 +25,7 @@
             </tr>
             <form>
                 <tr ng-repeat="order in orders track by $index">
-                    <td><input type="radio" ng-model="selected_order_id" ng-value = "order.Order_id" name="groupName"></td>
+                    <td><input type="radio" ng-click="select_id(order.Order_id)" ng-value = "order.Order_id" name="groupName"/></td>
                     <td>{{order.Order_id}}</td>
                     <td>{{order.Mtitle}}</td>
                     <td>{{order.Status}}</td>
@@ -22,7 +35,7 @@
 
 		</table>
         <br><br>
-        <button ng-click="veiw_detail()">View Detial</button>
+        <button ng-click="veiw_detail()" ng-disabled="!selected_order_id">View Detial</button>
 		<br><br>
 		<button ng-click="goto('/me')">Back</button>
     </div>

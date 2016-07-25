@@ -7,8 +7,15 @@
             console.log(data);
             $scope.detail = data;
         })
+        socket.on('cancelled', function(data) {
+            $scope.goto('/order_history')
+        })
+
         $scope.goto = function(path) {
             $location.path(path);
+        }
+        $scope.cancel = function() {
+            socket.emit('cancel_order', current_user_info.want_detail_order)
         }
     }])
 })()

@@ -41,8 +41,23 @@ io.on('connect', function(socket) {
     socket.on('get_order_detail', get_order_detail_gen(socket))
     socket.on('get_popular_movie_report', get_popular_movie_report_gen(socket))
     socket.on('get_revenue_report', get_revenue_report_gen(socket))
+    socket.on('cancel_order', cancel_order_gen(socket))
 })
 server.listen(portNum);
+
+function cancel_order_gen(socket) {
+    return function cancel_order(Order_id) {
+        connection.query("UPDATE ORDERS SET Status = 'cancelled' WHERE Order_id = ?", [Order_id], function(err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            };
+            console.log(result);
+            socket.emit('cancelled');
+        })
+    }
+}
+
 function get_order_detail_gen(socket) {
     return function get_order_detail(Order_id) {
         console.log(Order_id)

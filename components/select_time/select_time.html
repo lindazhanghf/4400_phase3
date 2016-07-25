@@ -162,7 +162,7 @@
                         <input type="checkbox" ng-model="newCard.Saved" name="Saved"/>
                     </td>
                     <td>
-                        <button ng-click="pay_using_new_card()">pay using new card</button>
+                        <button ng-click="pay_using_new_card()" ng-disabled="hasErr()">pay using new card</button>
                         <br>
                     </td>
                     <br>

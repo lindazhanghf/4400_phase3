@@ -16,8 +16,8 @@ var insert_theater = 0;
 var insert_plays_at = 0;
 var insert_Showtime = 0;
 var insert_Showtime_3_month = 0;
-var insert_payment = 1;
-var insert_payment_rand = 0
+var insert_payment = 0;
+var insert_payment_rand = 1
 // var insert_order = 1;
 var insert_may_june_movie = 0;
 var insert_new_plays_at_true = 0;
@@ -392,3 +392,9 @@ if (insert_preferred_theaters) {
         };
     })
 };
+
+if (insert_payment_rand) {
+    connection.query("SELECT * FROM CUSTOMER", null, function(err, result) {
+
+    })
+}

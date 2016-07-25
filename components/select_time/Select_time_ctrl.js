@@ -70,10 +70,6 @@
         }
         $scope.expired = false
         function hasErr() {
-            $scope.myForm.Name_on_card.$dirty = true
-            $scope.myForm.Card_number.$dirty = true
-            $scope.myForm.Cvv.$dirty = true
-            $scope.myForm.Expiration_date.$dirty = true
             return Object.keys($scope.myForm.Name_on_card.$error).length +  Object.keys($scope.myForm.Card_number.$error).length + Object.keys($scope.myForm.Cvv.$error).length + Object.keys($scope.myForm.Expiration_date.$error).length
         }
         function generate_ticket () {
@@ -91,7 +87,12 @@
                 Tid:current_user_info.ticket.Tid
             }
         }
+        $scope.hasErr = hasErr;
         $scope.pay_using_new_card = function() {
+            $scope.myForm.Name_on_card.$dirty = true
+            $scope.myForm.Card_number.$dirty = true
+            $scope.myForm.Cvv.$dirty = true
+            $scope.myForm.Expiration_date.$dirty = true
             console.log($scope.newCard);
             if (hasErr()) {
                 return
