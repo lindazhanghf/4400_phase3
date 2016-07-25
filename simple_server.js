@@ -400,13 +400,11 @@ function get_popular_movie_report_gen(socket) { //TODO
         console.log('Month ', month);
         connection.query("SELECT Mtitle, COUNT(*) as num FROM ORDERS WHERE (Status != 'Cancelled') AND(MONTH(Date) = ? AND Date <= CURDATE()) GROUP BY Mtitle ORDER BY COUNT(*) DESC LIMIT 3;", month, function(err, result) {
             if (err) {
-                connection.rollback(function() {
-                    console.log(err);
-                })
+                console.log(err)
                 return;
             };
             console.log(result);
-            socket.emit('popular_movie_report', [month, result]);
+            socket.emit('popular_movie_report', {month:month, result:result});
         })
     }
 }

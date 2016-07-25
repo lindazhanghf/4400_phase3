@@ -5,6 +5,10 @@
         $scope.goto = function(path) {
             $location.path(path);
         }
+        $scope.logout = function() {
+            current_user_info.user = {};
+            $location.path('/login')
+        }
 
     }])
 })()

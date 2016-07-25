@@ -6,12 +6,23 @@
 			<tr>
 				<td><b>Month</b></td>
 				<td><b>Movie</b></td>
-				<td><b>#of Orders</b></td>
+<!-- 				<td><b>#of Orders</b></td> -->
 			</tr>
-			<tr ng-repeat="month in report track by $index">
-<!-- 				<td>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</td>
-				<td><button ng-click="delete_theater(theater)">Delete</button>
- -->			</tr>
+			<tr ng-repeat="(month, best3) in report track by $index">
+                <td>{{getMonthName(month)}}</td>
+                <td>
+                    <table>
+                        <tr ng-repeat="one_movie in best3 track by $index">
+                            <td width="400">{{one_movie.Mtitle}}</td>
+                            <td>{{one_movie.num}} tickets</td>
+                        </tr>
+                    </table>
+<!--                     <div ng-repeat="one_movie in best3 track by $index">
+                        <span>{{one_movie.Mtitle}}</span>
+                        <span>{{one_movie.num}}<span>
+                    </div> -->
+                </td>
+    		</tr>
 		</table>
 
 		<br><br>
