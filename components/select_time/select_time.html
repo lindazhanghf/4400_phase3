@@ -6,33 +6,45 @@
     <h3>Length: {{movie_info.Length.substring(0, movie_info.Length.length - 2)}} min</h3>
     <h3>Genre: {{movie_info.Genre}}</h3>
     <h3>Fan rating: {{movie_info.fan_rating}}</h3>
-    <span>Avaliable date:</span>
-        <table border="0">
-            <tr>
-                <td ng-repeat="(key, value) in date">
-                    <button ng-click="select_date(key)">{{key.substring(5, key.length)}}</button>
-                </td>
-            </tr>
-        </table>
-        <br>
-        <span>Avaliable time:</span>
-        <br>
-        <table border="0">
-            <tr>
-                <td ng-repeat="day in hour_mins track by $index">
-                    <button ng-click="select_time(day)">{{day.substring(0, 5)}}</button>
-                </td>
-            </tr>
-        </table>
+    <br>
+    <table>
+        <tr><b>{{theater.Name}}</b></tr>
+        <tr><span>{{theater.Steet}}, {{theater.City}}, {{theater.State}} {{theater.Zip}}</span></tr>
+    </table>
+    <br>
+    <div ng-show="!paid">
+        <span>Avaliable date:</span>
+            <table border="0">
+                <tr>
+                    <td ng-repeat="(key, value) in date">
+                        <button ng-click="select_date(key)">{{key.substring(5, key.length)}}</button>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <span>Avaliable time:</span>
+            <br>
+            <table border="0">
+                <tr>
+                    <td ng-repeat="day in hour_mins track by $index">
+                        <button ng-click="select_time(day)">{{day.substring(0, 5)}}</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-
     <div>
         <h3>Selected Date: {{date_selected}}</h3>
     </div>
     <div>
         <h3>Selected Time: {{selected_time}}</h3>
     </div>
-    <div ng-show="date_selected && selected_time">
+    <div ng-show="paid">
+         <h3>Order confirmation</h3>
+         <h4>Order ID: {{Order_ID}}</h2>
+         <button ng-click=goto('/now_playing')>Back</button>
+    </div>
+    <div ng-show="(date_selected && selected_time)&& !paid">
         <h3>How many ticket?</h3>
         <div>
             <span>Adult ticket  </span>
@@ -44,8 +56,9 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
-            <span> * ${{price_info.Ticket_price}} = ${{ticket.Adult_tickets * price_info.Ticket_price}}</span>
+            <span> * {{price_info.Ticket_price}} = ${{(ticket.Adult_tickets * price_info.Ticket_price)|currency}}</span>
         </div>
+        <br>
         <div>
         <span>Senior ticket</span>
             <select name="Senior ticket" ng-model=ticket.Senior_tickets>
@@ -56,8 +69,9 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
-            <span> * ${{price_info.Ticket_price}} * {{price_info.Senior_discount}} = ${{ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount}}</span>
+            <span> * {{price_info.Ticket_price}} * {{price_info.Senior_discount}} = ${{(ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount)|currency}}</span>
         </div>
+        <br>
         <div>
         <span>Child ticket  </span>
             <select name="Child ticket" ng-model=ticket.Child_tickets>
@@ -68,16 +82,98 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
             </select>
-            <span> * ${{price_info.Ticket_price}} * {{price_info.Child_discount}} = ${{ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount}}</span>
+            <span> * {{price_info.Ticket_price}} * {{price_info.Child_discount}} = ${{(ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount)|currency}}</span>
         </div>
-        <span>sum: ${{ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount + ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount + ticket.Adult_tickets * price_info.Ticket_price}}</span>
+        <br>
+        <span>sum: {{(ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount + ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount + ticket.Adult_tickets * price_info.Ticket_price)| currency}}</span>
         <br>
 
     </div>
-    <div>
-        <button ng-click="pay()">Pay</button> <br>
+    <br>
+    <br>
+    <div ng-show="(ticket.Child_tickets * price_info.Ticket_price * price_info.Child_discount + ticket.Senior_tickets * price_info.Ticket_price * price_info.Senior_discount + ticket.Adult_tickets * price_info.Ticket_price) > 0 && !paid">
+        <h2>Payment Information</h2>
+        <div ng-show="cards.length">
+        <table border="0">
+            <tr>
+                <td><h3>Use a saved card: </h3></td>
+                <td><div>
+                    <select  ng-model="ticket.card">
+                        <option ng-repeat="card in cards track by $index" value="{{card}}">{{'********' + card.Card_number.substr(-4)}}</option>
+                    </select>
+                </div></td>
+                <td><button ng-click="pay()" ng-disabled="!ticket.card">Pay</button>
+            </tr>
+        </table>
+        <div>
+            <h3>Use a new card</h3>
+            <form name="myForm">
+                <tr>
+                    <td>Name on Card</td>
+                    <td>
+                        <input type="text" placeholder="Firstname Lastname" ng-model="newCard.Name_on_card" name="Name_on_card" ng-required="true" ng-minlength="1" ng-maxlength="40"/>
+                        <div ng-messages="myForm.Name_on_card.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Name_on_card.$dirty">
+                          <span ng-message="required">field required</span>
+                          <span ng-message="minlength">name should be at least 1 characters</span>
+                          <span ng-message="maxlength">name cannot be longer than 40 characters</span>
+                        </div> <br>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Card Number</td>
+                    <td>
+                        <input type="text" placeholder="000000000000" ng-model="newCard.Card_number" name="Card_number" ng-required="true" ng-minlength="12" ng-maxlength="12" ng-pattern="/^[0-9]{12}$/"/>
+                        <div ng-messages="myForm.Card_number.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Card_number.$dirty" >
+                          <span ng-message="required">field required</span>
+                          <span ng-message="minlength">Card should be 12 digits</span>
+                          <span ng-message="maxlength">Card should be 12 digits</span>
+                          <span ng-message="pattern">invalid card number</span><br>
+                        </div> <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cvv</td>
+                    <td>
+                        <input type="text" placeholder="0000" ng-model="newCard.Cvv" name="Cvv" ng-required="true" ng-minlength="3" ng-maxlength="4"/ ng-pattern="/^[0-9]{3,4}$/">
+                        <div ng-messages="myForm.Cvv.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Cvv.$dirty">
+                          <span ng-message="required">field required</span>
+                          <span ng-message="minlength">cvv should be at least 3 digits</span>
+                          <span ng-message="maxlength">cvv should be at most 4 digits</span> <br>
+                          <span ng-message="pattern">invalid cvv</span><br>
+                        </div> <br>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Expiration Date</td>
+                    <td>
+                        <input type="month" ng-model="newCard.Expiration_date" name="Expiration_date" ng-required="true" />
+                        <span ng-if="expired" style="color:red; font-size: 14px;">Cannot proceed: Card expired</span>
+                        <div ng-messages="myForm.Expiration_date.$error" style="color:red; font-size: 14px;" role="alert" ng-if = "myForm.Expiration_date.$dirty">
+                          <span ng-message="required">field required</span>
+                        </div> <br>
+                    </td>
+                </tr>
+                <br>
+                <br>
+                <tr>
+                    <td>Save</td>
+                    <td>
+                        <input type="checkbox" ng-model="newCard.Saved" name="Saved"/>
+                    </td>
+                    <td>
+                        <button ng-click="pay_using_new_card()">pay using new card</button>
+                        <br>
+                    </td>
+                    <br>
+                </tr>
+            </form>
+
+        </div>
+
+        </div>
     </div>
-    <div>
+    <div ng-show="!paid">
         <button ng-click="goto('/buy_ticket')">Back</button> <br>
     </div>
 </div>

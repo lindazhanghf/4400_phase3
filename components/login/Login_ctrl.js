@@ -6,6 +6,7 @@
         console.log($scope.myForm);
         $scope.login = function() {
             $scope.myForm.Password.$dirty = true;
+            $scope.myForm.Username.$dirty = true
             if (Object.keys($scope.myForm.Username.$error).length != 0 || Object.keys($scope.myForm.Password.$error).length != 0) {
                 return
             };

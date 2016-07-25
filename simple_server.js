@@ -36,8 +36,141 @@ io.on('connect', function(socket) {
     socket.on('search_theater', search_theater_gen(socket))
     socket.on('get_showtime', get_showtime_gen(socket))
     socket.on('get_system_info', get_system_info_gen(socket))
+    socket.on('pay_using_saved_card', pay_using_saved_card_gen(socket))
+    socket.on('pay_using_new_card', pay_using_new_card_gen(socket))
 })
 server.listen(portNum);
+
+function pay_using_new_card_gen(socket) {
+    return function pay_using_new_card(info) {
+        console.log(info);
+        connection.beginTransaction(function(err) {
+            if (err) {
+                console.log(err);
+                return
+            };
+            if (info.saved === true) {
+                connection.query('SELECT Saved FROM PAYMENT_INFO WHERE User = ? AND Card_number = ?', [info.newCard.User, info.newCard.Card_number], function(err, result) {
+                    if (err) {
+                        console.log(err)
+                        return
+                    };
+                    console.log(result);
+                    if (result.length == 0) {
+                        connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
+                            if (err) {
+                                socket.emit('cannot insert card')
+                                connection.rollback(function() {
+                                    console.log(err)
+                                    return
+                                })
+                                return
+                            };
+                            console.log(result);
+                            connection.commit(function(err) {
+                                if (err) {
+                                    console.log(err)
+                                    return
+                                };
+                            })
+                            pay_using_saved_card_gen(socket)(info.ticket)
+                        })
+                    } else {
+                        connection.query('UPDATE PAYMENT_INFO SET Saved = true WHERE Card_number = ?', [ingo.newCard.Card_number], function(err, result) {
+                            if (err) {
+                                socket.emit('this should be imposible')
+                                connection.rollback(function() {
+                                    console.log(err)
+                                    return
+                                })
+                                return
+                            };
+                            console.log(result);
+                            connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
+                                if (err) {
+                                    socket.emit('cannot insert card')
+                                    connection.rollback(function() {
+                                        console.log(err)
+                                        return
+                                    })
+                                    return
+                                };
+                                console.log(result);
+                                connection.commit(function(err) {
+                                    if (err) {
+                                        console.log(err)
+                                        return
+                                    };
+                                })
+                                pay_using_saved_card_gen(socket)(info.ticket)
+                            })
+                        })
+                    }
+                    if (result[0]) {};
+                })
+            } else {
+                connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
+                    if (err) {
+                        socket.emit('cannot insert card')
+                        connection.rollback(function() {
+                            console.log(err)
+                            return
+                        })
+                        return
+                    };
+                    console.log(result);
+                    connection.commit(function(err) {
+                        if (err) {
+                            console.log(err)
+                            return
+                        };
+                    })
+                    pay_using_saved_card_gen(socket)(info.ticket)
+                })
+            }
+
+        })
+    }
+}
+
+function pay_using_saved_card_gen(socket) {
+    return function pay_using_saved_card(ticket) {
+        connection.beginTransaction(function(err) {
+            if (err) {
+                console.log(err);
+                return
+            }
+            connection.query('INSERT INTO ORDERS SET ?',ticket, function(err, result) {
+                if (err) {
+                    connection.rollback(function() {
+                        console.log(err)
+                        return
+                    })
+                    return
+                };
+                console.log(result)
+                connection.query('SELECT LAST_INSERT_ID()', null, function(err, result) {
+                    if (err) {
+                        connection.rollback(function() {
+                            console.log(err)
+                            return
+                        })
+                        return
+                    };
+                    socket.emit('Order_ID', result[0])
+                    connection.commit(function(err) {
+                        if (err) {
+                            connection.rollback(function() {
+                                console.log(err);
+                                return;
+                            })
+                        };
+                    })
+                })
+            })
+        })
+    }
+}
 
 function format_date(date) {
     var year = date.getFullYear();
@@ -70,7 +203,7 @@ function get_showtime_gen(socket) {
         var now = new Date();
         var time = format_date(now);
         var day_later = new Date()
-        day_later.setDate(day_later.getDate() + 8);
+        day_later.setDate(day_later.getDate() + 6);
         connection.query('SELECT Showtime FROM SHOWTIME WHERE Mtitle = ? AND Tid = ? AND Showtime > ? AND Showtime < ?', [data.Mtitle, data.Tid, time, day_later], function(err, result) {
             if (err) {
                 console.log(err)
@@ -117,7 +250,8 @@ function get_now_playing_gen(socket) {
 function get_order_history_gen(socket) {
     return function get_order_history(data) {
         console.log(data);
-        connection.query('SELECT * FROM ORDER WHERE User = ?', [data], function(err, result) {
+        connection.query("(SELECT Order_id, Mtitle, Status, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE User = ? AND Status != 'Cancelled') UNION (SELECT Order_id, Mtitle, Status, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount - Cancellation_fee) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE User = ? AND Status = 'Cancelled')", [data, data], function(err, result) {
+            console.log(result)
             socket.emit('order_history', result);
         })
     }
@@ -221,7 +355,7 @@ function get_movie_review_avg_gen(socket) {
 }
 function search_theater_gen(socket) {
     return function search_theater_handler(keyword) {
-        connection.query('SELECT * FROM THEATER WHERE Name LIKE ? OR State LIKE ? OR City LIKE ?', [keyword, keyword, keyword], function(err, result) {
+        connection.query('SELECT * FROM THEATER WHERE Name LIKE ? OR State LIKE ? OR City LIKE ? OR Zip LIKE ?', [keyword, keyword, keyword, keyword], function(err, result) {
             if (err) {
                 console.log(err);
             };

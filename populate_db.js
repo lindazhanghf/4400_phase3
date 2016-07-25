@@ -16,13 +16,13 @@ var insert_theater = 0;
 var insert_plays_at = 0;
 var insert_Showtime = 0;
 var insert_Showtime_3_month = 0;
-var insert_payment = 0;
+var insert_payment = 1;
 var insert_payment_rand = 0
 // var insert_order = 1;
 var insert_may_june_movie = 0;
 var insert_new_plays_at_true = 0;
 var insert_new_plays_at_false = 0;
-var insert_Showtime_new = 1;
+var insert_Showtime_new = 0;
 var insert_preferred_theaters = 0;
 
 connection.connect();

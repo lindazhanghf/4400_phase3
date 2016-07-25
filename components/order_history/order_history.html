@@ -2,13 +2,28 @@
     <div class="form">
         <h1>My Order Hisotry</h1>
 		<table border="0" cellpadding="10">
-				<tr ng-repeat="order in orders track by $index">
-<!-- 					<td><h3>{{order.Name}}</h3></td>
-					<td>{{order.Steet}}<br> {{order.City}}, {{order.State}} {{order.Zip}}</td>
-					<td><button ng-click="delete_order(order)">Delete</button>
- -->				</tr>
+            <tr>
+                <td>Select</td>
+                <td>Order id</td>
+                <td>Movie</td>
+                <td>Status</td>
+                <td>Total cost</td>
+
+            </tr>
+            <form>
+                <tr ng-repeat="order in orders track by $index">
+                    <td><input type="radio" ng-model="selected_order_id" ng-value = "order.Order_id" name="groupName"></td>
+                    <td>{{order.Order_id}}</td>
+                    <td>{{order.Mtitle}}</td>
+                    <td>{{order.Status}}</td>
+                    <td>{{order.Total_cost}}</td>
+                </tr>
+            </form>
+
 		</table>
+        <br><br>
+        <button ng-click="veiw_detail()">View Detial</button>
 		<br><br>
-		<button ng-click="goto_me()">Back</button>
+		<button ng-click="goto('/me')">Back</button>
     </div>
 </div>

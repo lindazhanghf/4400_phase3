@@ -17,10 +17,17 @@
         $scope.select_theater = function(theater) {
             console.log(theater);
             current_user_info.ticket = {};
-            if (theater == undefined)
+            if (theater == undefined) {
                 current_user_info.ticket.Tid = $scope.select.Tid;
-            else {
+                current_user_info.selected_theater = $scope.preferred_theaters.filter(function(e) {
+                    if (e.Tid == current_user_info.ticket.Tid.toString()) {
+                        return true
+                    }
+                    return false
+                })[0];
+            } else {
                 current_user_info.ticket.Tid = theater.Theater_id;
+                current_user_info.selected_theater = theater
             }
             $scope.search.Result.forEach(function(theater) {
                 if (theater.Saved) {

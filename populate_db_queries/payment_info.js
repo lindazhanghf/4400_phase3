@@ -5,7 +5,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2018-07-25',
+        Expiration_date:'2018-07-01',
         Name_on_card:'larry jimenez'
     },
     {
@@ -13,7 +13,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-03-25',
+        Expiration_date:'2019-03-01',
         Name_on_card:'larry jimenez'
     },
     {
@@ -21,7 +21,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2018-07-25',
+        Expiration_date:'2018-07-01',
         name_on_card: 'rene brooks'
     },
     {
@@ -29,7 +29,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2020-07-25',
+        Expiration_date:'2020-07-01',
         name_on_card: 'rene brooks'
     },
     {
@@ -37,7 +37,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-07-25',
+        Expiration_date:'2019-07-01',
         name_on_card: 'Yuhui'
     },
     {
@@ -45,7 +45,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-01-25',
+        Expiration_date:'2019-01-01',
         name_on_card: 'Yuhui'
     },
     {
@@ -53,7 +53,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-01-25',
+        Expiration_date:'2019-01-01',
         name_on_card: 'asher wang'
     },
     {
@@ -61,7 +61,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2017-05-25',
+        Expiration_date:'2017-05-01',
         name_on_card: 'asher wang'
     },
     {
@@ -69,7 +69,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2020-01-25',
+        Expiration_date:'2020-01-01',
         name_on_card: 'kirk davis'
     },
     {
@@ -77,7 +77,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-06-26',
+        Expiration_date:'2019-06-01',
         name_on_card: 'kirk davis'
     },
     {
@@ -85,7 +85,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-06-26',
+        Expiration_date:'2019-06-01',
         name_on_card: 'elisa henry'
     },
     {
@@ -93,7 +93,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2019-06-26',
+        Expiration_date:'2019-06-01',
         name_on_card: 'eva bouchard'
     },
     {
@@ -101,7 +101,7 @@ var payment_info= [
         Card_number: Math.floor((1+Math.random())*100000000000).toString(),
         Saved: true,
         Cvv:Math.floor((1+Math.random())*100).toString(),
-        Expiration_date:'2017-01-26',
+        Expiration_date:'2017-01-01',
         name_on_card: 'earl duncan'
     },
 ];
