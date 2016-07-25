@@ -396,13 +396,17 @@ function search_theater_gen(socket) {
     }
 }
 function get_popular_movie_report_gen(socket) { //TODO
-    return function get_popular_movie_report_handler(keyword) {
-        connection.query('SELECT * FROM THEATER WHERE Name LIKE ? OR State LIKE ? OR City LIKE ? OR Zip LIKE ?', null, function(err, result) {
+    return function get_popular_movie_report_handler(month) {
+        console.log('Month ', month);
+        connection.query("SELECT Mtitle, COUNT(*) as num FROM ORDERS WHERE (Status != 'Cancelled') AND(MONTH(Date) = ? AND Date <= CURDATE()) GROUP BY Mtitle ORDER BY COUNT(*) DESC LIMIT 3;", month, function(err, result) {
             if (err) {
-                console.log(err);
+                connection.rollback(function() {
+                    console.log(err);
+                })
+                return;
             };
             console.log(result);
-            socket.emit('popular_movie_report', result);
+            socket.emit('popular_movie_report', [month, result]);
         })
     }
 }
