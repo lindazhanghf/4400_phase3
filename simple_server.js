@@ -209,7 +209,7 @@ function format_date(date) {
     var hour = date.getHours();
     var min = date.getMinutes();
 
-    day = '00'.substring(0, 2-month.toString().length) + day
+    day = '00'.substring(0, 2-day.toString().length) + day
     month = '00'.substring(0, 2-month.toString().length) + month
     hour = '00'.substring(0, 2-hour.toString().length) + hour
     min = '00'.substring(0, 2-min.toString().length) + min

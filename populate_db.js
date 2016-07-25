@@ -17,13 +17,15 @@ var insert_plays_at = 0;
 var insert_Showtime = 0;
 var insert_Showtime_3_month = 0;
 var insert_payment = 0;
-var insert_payment_rand = 1
+var insert_payment_rand = 0
 // var insert_order = 1;
 var insert_may_june_movie = 0;
 var insert_new_plays_at_true = 0;
 var insert_new_plays_at_false = 0;
 var insert_Showtime_new = 0;
 var insert_preferred_theaters = 0;
+var insert_random_order = 0
+var finish_order = 1
 
 connection.connect();
 var system_info = {
@@ -399,22 +401,133 @@ if (insert_payment_rand) {
             console.log(err)
             return;
         };
-        for(var i = 0, i < result.length, i++) {
+        for(var i = 0; i < result.length; i++) {
             var name = result[i].Username;
-            if (Math.random < 0.2) {
+            if (Math.random < 0.4) {
                 return;
             };
+            var month = getRandomInt(1, 12)
+            month = '00'.substring(0, 2-month.toString().length) + month
             var card ={
-                User: 'name',
+                User: name,
                 Card_number: Math.floor((1+Math.random())*100000000000).toString(),
-                Saved: true,
+                Saved: false,
                 Cvv:Math.floor((1+Math.random())*100).toString(),
-                Expiration_date: getRandomInt(2017, 2022) + '-' + getRandomInt(1, 12) + '-01',
+                Expiration_date: getRandomInt(2017, 2022) + '-' + month + '-01',
                 Name_on_card: name.substring(0, 4) + ' ' + name.substring(4, name.length - 4)
+            }
+            console.log(JSON.stringify(card, null, 2))
+            connection.query('INSERT INTO PAYMENT_INFO SET ?', [card], function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return;
+                };
+                console.log(result);
+            })
         }
     })
 }
 
 function getRandomInt(min, max) {
-  return (Math.floor(Math.random() * (max - min)) + min).toString;
+  return Math.floor(Math.random() * (max - min)) + min;
 }
+
+if (insert_random_order) {
+    var queue = Q();
+    queue.then(function() {
+        console.log('!!!')
+        var deferred = Q.defer();
+        connection.query('SELECT * FROM SHOWTIME', null, function(err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            }
+            deferred.resolve(result);
+        })
+        return deferred.promise
+    })
+    .then(function(showtime) {
+        console.log('!!')
+        var deferred = Q.defer();
+        connection.query('SELECT Card_number, User FROM PAYMENT_INFO', null, function(err, result) {
+            if (err) {
+                console.log(err)
+                return
+            }
+            deferred.resolve({showtime: showtime, cards: result});
+        })
+        return deferred.promise;
+    })
+    .then(function(info) {
+        console.log('!')
+        var deferred = Q.defer();
+        var showtimes = info.showtime;
+        var cards = info.cards;
+        var total_showtime_number =showtimes.length;
+        var total_payment_number = cards.length;
+        var target_amount = Math.floor(total_showtime_number / 80);
+        for(var i = 0; i < target_amount; i++) {
+            var showtime = showtimes[getRandomInt(0, total_showtime_number)]
+            var card = cards[getRandomInt(0, total_payment_number)]
+            var my_Date = showtime.Showtime;
+            var myTime = format_date(new Date(my_Date))
+            console.log(myTime)
+            var Status = "unused"
+            if (Math.random() < 0.2) {
+                Status = 'cancelled'
+            };
+            var Adult_tickets = 1;
+            Adult_tickets += getRandomInt(0, 3);
+            var Child_tickets = getRandomInt(0, 3);
+            var Senior_tickets = getRandomInt(0, 3);
+            var ticket = {
+                User: card.User,
+                Date: myTime.substring(0, 10),
+                Time: myTime.substr(-8),
+                Status: Status,
+                Cno: card.Card_number,
+                Mtitle: showtime.Mtitle,
+                Tid: showtime.Tid,
+                Adult_tickets: Adult_tickets,
+                Child_tickets: Child_tickets,
+                Senior_tickets: Senior_tickets
+            }
+            connection.query('INSERT INTO ORDERS SET ?', ticket, function(err, result) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+                console.log(result);
+            })
+        }
+        deferred.resolve()
+        return deferred.promise;
+    })
+    .fail(function(err) {
+        console.log(err)
+    })
+};
+
+function format_date(date) {
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var min = date.getMinutes();
+
+    day = '00'.substring(0, 2-day.toString().length) + day
+    month = '00'.substring(0, 2-month.toString().length) + month
+    hour = '00'.substring(0, 2-hour.toString().length) + hour
+    min = '00'.substring(0, 2-min.toString().length) + min
+    return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':00'
+}
+
+if (finish_order) {
+    connection.query("UPDATE ORDERS SET Status='finished' WHERE Date < CURDATE() OR (Date = CURDATE() AND Time < CURTIME())", null, function(err, result) {
+        if (err) {
+            console.log(err)
+            return
+        };
+        console.log(result);
+    })
+};
