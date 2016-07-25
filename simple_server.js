@@ -406,15 +406,26 @@ function get_popular_movie_report_gen(socket) { //TODO
         })
     }
 }
-function get_revenue_report_gen(socket) { //TODO
-    return function get_revenue_report_handler(keyword) {
-        connection.query('TODO', [keyword, keyword, keyword, keyword], function(err, result) {
-            if (err) {
-                console.log(err);
-            };
-            console.log(result);
-            socket.emit('revenue_report', result);
+function get_revenue_report_gen(socket) {
+    return function get_revenue_report_handler(months) {
+        var report = {};
+        months.forEach(function(m){
+            var month = m.month;
+            console.log('month '+month);
+            connection.query("CREATE OR REPLACE VIEW month_orders AS (SELECT MONTH(Date), (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE Status != 'Cancelled' AND MONTH(Date) = ?)", month, function(err, result) {
+                if (err) {
+                    console.log(err);
+                };
+            })
+            connection.query("SELECT SUM(Total_cost) as sum FROM month_orders", null, function(err, result) {
+                if (err) {
+                    console.log(err);
+                };
+                m.revenue = result[0].sum;
+                socket.emit('revenue_report', m);
+            })
         })
+        
     }
 }
 function register_handler_gen(socket) {

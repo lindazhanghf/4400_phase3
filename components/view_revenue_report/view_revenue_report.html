@@ -7,15 +7,15 @@
 				<td><b>Month</b></td>
 				<td><b>Revenue</b></td>
 			</tr>
-			<tr ng-repeat="month in report track by $index">
-<!-- 				<td>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</td>
-				<td><button ng-click="delete_theater(theater)">Delete</button>
- -->			</tr>
+			<tr ng-repeat="r in report track by $index">
+				<td>{{getMonthName(r.month)}}</td>
+				<td>${{r.revenue}}</td>
+			</tr>
 		</table>
 
 		<br><br>
         <div>
-            <button ng-click="goto('/view_popular_movie_report')">View popular movie report</button>
+            <button ng-click="goto('/manager_view')">Back</button>
         </div>
          <br>
     </div>
