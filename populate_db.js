@@ -376,7 +376,7 @@ if (insert_preferred_theaters) {
         };
         for (var i = result.length - 1; i >= 0; i--) {
             var username = result[i].Username;
-            if (Math.random()<0.2) {
+            if (Math.random()<0.5) {
                 return
             }
             var Tid = Math.round(1 + Math.random() * 5);
@@ -395,6 +395,26 @@ if (insert_preferred_theaters) {
 
 if (insert_payment_rand) {
     connection.query("SELECT * FROM CUSTOMER", null, function(err, result) {
-
+        if (err) {
+            console.log(err)
+            return;
+        };
+        for(var i = 0, i < result.length, i++) {
+            var name = result[i].Username;
+            if (Math.random < 0.2) {
+                return;
+            };
+            var card ={
+                User: 'name',
+                Card_number: Math.floor((1+Math.random())*100000000000).toString(),
+                Saved: true,
+                Cvv:Math.floor((1+Math.random())*100).toString(),
+                Expiration_date: getRandomInt(2017, 2022) + '-' + getRandomInt(1, 12) + '-01',
+                Name_on_card: name.substring(0, 4) + ' ' + name.substring(4, name.length - 4)
+        }
     })
+}
+
+function getRandomInt(min, max) {
+  return (Math.floor(Math.random() * (max - min)) + min).toString;
 }

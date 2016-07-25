@@ -105,6 +105,7 @@
                 <td><button ng-click="pay()" ng-disabled="!ticket.card">Pay</button>
             </tr>
         </table>
+        </div>
         <div>
             <h3>Use a new card</h3>
             <form name="myForm">
@@ -171,7 +172,6 @@
 
         </div>
 
-        </div>
     </div>
     <div ng-show="!paid">
         <button ng-click="goto('/buy_ticket')">Back</button> <br>
