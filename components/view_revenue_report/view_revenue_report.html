@@ -1,3 +1,22 @@
 <div>
-    <span>me page</span>
+    <div class="form">
+        <h1>View Revenue Report</h1>
+
+		<table border="0" cellpadding="10">
+			<tr>
+				<td><b>Month</b></td>
+				<td><b>Revenue</b></td>
+			</tr>
+			<tr ng-repeat="month in report track by $index">
+<!-- 				<td>{{theater.Steet}}<br> {{theater.City}}, {{theater.State}} {{theater.Zip}}</td>
+				<td><button ng-click="delete_theater(theater)">Delete</button>
+ -->			</tr>
+		</table>
+
+		<br><br>
+        <div>
+            <button ng-click="goto('/view_popular_movie_report')">View popular movie report</button>
+        </div>
+         <br>
+    </div>
 </div>
