@@ -25,7 +25,10 @@ var insert_new_plays_at_false = 0;
 var insert_Showtime_new = 0;
 var insert_preferred_theaters = 0;
 var insert_random_order = 0
-var finish_order = 1
+var finish_order = 0
+var test_revenue_report = 0;
+var test_popular_report = 1;
+
 
 connection.connect();
 var system_info = {
@@ -524,6 +527,37 @@ function format_date(date) {
 
 if (finish_order) {
     connection.query("UPDATE ORDERS SET Status='finished' WHERE Date < CURDATE() OR (Date = CURDATE() AND Time < CURTIME())", null, function(err, result) {
+        if (err) {
+            console.log(err)
+            return
+        };
+        console.log(result);
+    })
+};
+
+if (test_revenue_report) {
+    var month = 7
+    connection.query("CREATE OR REPLACE VIEW month_orders AS (SELECT MONTH(Date) as Month, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE Status != 'Cancelled' AND MONTH(Date) = ?) UNION (SELECT MONTH(Date) as Month, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount - Cancellation_fee) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE Status = 'Cancelled' AND MONTH(Date) = ?)", [month, month], function(err, result) {
+        if (err) {
+            console.log(err);
+            return;
+        };
+        console.log(result);
+        connection.query('SELECT Month, SUM(Total_cost) as Sum FROM month_orders GROUP BY Month', null, function(err, result) {
+            if (err) {
+                console.log(err);
+                return;
+            };
+            console.log(result);
+        })
+    })
+};
+
+if (test_popular_report) {
+    var month = {from:5, to:7}
+    var start = month.from;
+    var end = month.to;
+    connection.query("SELECT MONTH(Date) as Month, Mtitle, COUNT(*) AS Num_of_orders FROM ORDERS WHERE (Status != 'Cancelled') AND(MONTH(Date) >= ? AND MONTH(DATE) <= ?) GROUP BY Month(Date), Mtitle", [start, end], function(err, result) {
         if (err) {
             console.log(err)
             return

@@ -6,14 +6,11 @@
     	var today = new Date();
     	var dd = today.getDate();
     	var mm = today.getMonth()+1; //January is 0!
-    	for (var i = mm-2; i <= mm; i++) {
-    		$scope.report.push({month:i});
-    	} 
-    	// console.log($scope.report);
-    	socket.emit('get_revenue_report', $scope.report);
+        var want_n_month = 3;
+        socket.emit('get_revenue_report', {from:5, to:7})
     	socket.on('revenue_report', function(result) {
+            console.log(result)
     		$scope.report = result;
-	    	console.log(JSON.stringify(result))
     	});
 
         $scope.goto = function(path) {

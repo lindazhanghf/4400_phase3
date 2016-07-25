@@ -407,25 +407,38 @@ function get_popular_movie_report_gen(socket) { //TODO
     }
 }
 function get_revenue_report_gen(socket) {
-    return function get_revenue_report_handler(months) {
-        var report = {};
-        months.forEach(function(m){
-            var month = m.month;
-            console.log('month '+month);
-            connection.query("CREATE OR REPLACE VIEW month_orders AS (SELECT MONTH(Date), (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE Status != 'Cancelled' AND MONTH(Date) = ?)", month, function(err, result) {
+    return function get_revenue_report_handler(month) {
+        var start = month.from;
+        var end = month.to;
+        connection.beginTransaction(function(e) {
+            if (e) {
+                console.log(e)
+                return
+            };
+            connection.query("CREATE OR REPLACE VIEW month_orders AS (SELECT MONTH(Date) as Month, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE (Status != 'Cancelled')AND(MONTH(Date) >= ? AND MONTH(DATE) <= ?)) UNION (SELECT MONTH(Date) as Month, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount - Cancellation_fee) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE (Status = 'Cancelled') AND (MONTH(Date) >= ? AND MONTH(DATE) <= ?))", [start, end, start, end], function(err, result) {
                 if (err) {
-                    console.log(err);
+                    connection.rollback(function() {
+                        console.log(err);
+                    })
+                    return;
                 };
-            })
-            connection.query("SELECT SUM(Total_cost) as sum FROM month_orders", null, function(err, result) {
-                if (err) {
-                    console.log(err);
-                };
-                m.revenue = result[0].sum;
-                socket.emit('revenue_report', m);
+                connection.query('SELECT Month, SUM(Total_cost) as Sum FROM month_orders GROUP BY Month', null, function(err, result) {
+                    if (err) {
+                        connection.rollback(function() {
+                            console.log(err);
+                        })
+                        return;
+                    };
+                    console.log(result);
+                    socket.emit('revenue_report', result);
+                    connection.commit(function(err) {
+                        if (err) {
+                            console.log(err);
+                        };
+                    })
+                })
             })
         })
-        
     }
 }
 function register_handler_gen(socket) {
