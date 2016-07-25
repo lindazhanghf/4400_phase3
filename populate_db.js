@@ -25,9 +25,10 @@ var insert_new_plays_at_false = 0;
 var insert_Showtime_new = 0;
 var insert_preferred_theaters = 0;
 var insert_random_order = 0
-var finish_order = 0
+var finish_order = 1
 var test_revenue_report = 0;
-var test_popular_report = 1;
+var test_popular_report = 0;
+var fix_order = 0;
 
 
 connection.connect();
@@ -338,6 +339,7 @@ function format_date(date) {
     var month = date.getMonth() + 1;
     var day = date.getDate();
     month = '00'.substring(0, 2-month.toString().length) + month
+    day = '00'.substring(0, 2-day.toString().length) + day
     return year + '-' + month + '-' + day + ' '
 }
 if (insert_Showtime_new) {
@@ -563,5 +565,38 @@ if (test_popular_report) {
             return
         };
         console.log(result);
+    })
+};
+
+if (fix_order) {
+    connection.query("SELECT User, Mtitle, Release_date FROM REVIEW, MOVIE WHERE Mtitle=MOVIE.Title", null, function(err, res) {
+        if (err) {
+            console.log(err)
+        };
+        console.log(res)
+        res.forEach(function(ticket) {
+            var time = new Date(ticket.Release_date)
+
+            var input = {
+                Date: format_date(time),
+                User: ticket.User,
+                Time: '18:00:00',
+                Mtitle: ticket.Mtitle,
+                Adult_tickets: 1,
+                Child_tickets: 0,
+                Senior_tickets: 0,
+                Status:'finished',
+                Cno:'314545675675',
+                Tid:2
+            }
+
+            connection.query("INSERT INTO ORDERS SET ?", [input], function(err, res) {
+                if (err) {
+                    console.log(err)
+                    return
+                };
+                console.log(res);
+            })
+        })
     })
 };
