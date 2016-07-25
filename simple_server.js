@@ -38,12 +38,9 @@ io.on('connect', function(socket) {
     socket.on('get_system_info', get_system_info_gen(socket))
     socket.on('pay_using_saved_card', pay_using_saved_card_gen(socket))
     socket.on('pay_using_new_card', pay_using_new_card_gen(socket))
-<<<<<<< HEAD
     socket.on('get_order_detail', get_order_detail_gen(socket))
-=======
     socket.on('get_popular_movie_report', get_popular_movie_report_gen(socket))
     socket.on('get_revenue_report', get_revenue_report_gen(socket))
->>>>>>> 29876cdc30bc4f46946a0ccf44823f459974835c
 })
 server.listen(portNum);
 function get_order_detail_gen(socket) {
@@ -197,6 +194,7 @@ function format_date(date) {
     var hour = date.getHours();
     var min = date.getMinutes();
 
+    day = '00'.substring(0, 2-month.toString().length) + day
     month = '00'.substring(0, 2-month.toString().length) + month
     hour = '00'.substring(0, 2-hour.toString().length) + hour
     min = '00'.substring(0, 2-min.toString().length) + min
