@@ -42,8 +42,25 @@ io.on('connect', function(socket) {
     socket.on('get_popular_movie_report', get_popular_movie_report_gen(socket))
     socket.on('get_revenue_report', get_revenue_report_gen(socket))
     socket.on('cancel_order', cancel_order_gen(socket))
+    socket.on('test_watched', test_watched_gen(socket))
 })
 server.listen(portNum);
+
+function test_watched_gen(socket) {
+    return function test_watched(info) {
+        connection.query("SELECT COUNT(*) AS NUM FROM ORDERS WHERE Mtitle = ? AND User = ? AND Status = 'finished'", [info.Mtitle, info.User], function(err, result) {
+            if (err) {
+                console.log(err)
+                return;
+            };
+            console.log('watched?')
+            console.log(result[0])
+            socket.emit('checkWachted', result[0].NUM)
+        })
+    }
+}
+
+
 
 function cancel_order_gen(socket) {
     return function cancel_order(Order_id) {

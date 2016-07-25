@@ -9,7 +9,8 @@
     </div>
     <br>
     <div>
-        <button ng-click="goto('/give_review')">Give Review</button> <br>
+        <button ng-click="goto('/give_review')" ng-disabled="!watched">Give Review</button> <br>
+        <span ng-show="!watched">Please watch it first to review!</span>
     </div>
     <br>
     <div>
