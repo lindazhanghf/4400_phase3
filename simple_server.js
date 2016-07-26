@@ -54,7 +54,7 @@ function test_watched_gen(socket) {
                 return;
             };
             console.log('watched?')
-            console.log(result[0])
+            //console.log(result[0])
             socket.emit('checkWachted', result[0].NUM)
         })
     }
@@ -69,7 +69,7 @@ function cancel_order_gen(socket) {
                 console.log(err)
                 return;
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('cancelled');
         })
     }
@@ -83,7 +83,7 @@ function get_order_detail_gen(socket) {
                 console.log(err)
                 return;
             }
-            console.log(result);
+            //console.log(result);
             socket.emit('order_detail', result[0])
         })
     }
@@ -102,9 +102,9 @@ function pay_using_new_card_gen(socket) {
                         console.log(err)
                         return
                     };
-                    console.log(result);
+                    //console.log(result);
                     if (result.length == 0) {
-                        connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
+                        var a = connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
                             if (err) {
                                 socket.emit('cannot insert card')
                                 connection.rollback(function() {
@@ -113,7 +113,7 @@ function pay_using_new_card_gen(socket) {
                                 })
                                 return
                             };
-                            console.log(result);
+                            //console.log(result);
                             connection.commit(function(err) {
                                 if (err) {
                                     console.log(err)
@@ -122,6 +122,7 @@ function pay_using_new_card_gen(socket) {
                             })
                             pay_using_saved_card_gen(socket)(info.ticket)
                         })
+                        console.log(a)
                     } else {
                         connection.query('UPDATE PAYMENT_INFO SET Saved = true WHERE Card_number = ?', [ingo.newCard.Card_number], function(err, result) {
                             if (err) {
@@ -132,8 +133,8 @@ function pay_using_new_card_gen(socket) {
                                 })
                                 return
                             };
-                            console.log(result);
-                            connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
+                            //console.log(result);
+                            var a = connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
                                 if (err) {
                                     socket.emit('cannot insert card')
                                     connection.rollback(function() {
@@ -142,7 +143,7 @@ function pay_using_new_card_gen(socket) {
                                     })
                                     return
                                 };
-                                console.log(result);
+                                //console.log(result);
                                 connection.commit(function(err) {
                                     if (err) {
                                         console.log(err)
@@ -151,12 +152,14 @@ function pay_using_new_card_gen(socket) {
                                 })
                                 pay_using_saved_card_gen(socket)(info.ticket)
                             })
+                            console.log(a)
                         })
+
                     }
                     if (result[0]) {};
                 })
             } else {
-                connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
+                var a = connection.query('INSERT INTO PAYMENT_INFO SET ?', info.newCard, function(err, result) {
                     if (err) {
                         socket.emit('cannot insert card')
                         connection.rollback(function() {
@@ -165,7 +168,7 @@ function pay_using_new_card_gen(socket) {
                         })
                         return
                     };
-                    console.log(result);
+                    //console.log(result);
                     connection.commit(function(err) {
                         if (err) {
                             console.log(err)
@@ -174,6 +177,7 @@ function pay_using_new_card_gen(socket) {
                     })
                     pay_using_saved_card_gen(socket)(info.ticket)
                 })
+                console.log(a)
             }
 
         })
@@ -187,7 +191,7 @@ function pay_using_saved_card_gen(socket) {
                 console.log(err);
                 return
             }
-            connection.query('INSERT INTO ORDERS SET ?',ticket, function(err, result) {
+            var a = connection.query('INSERT INTO ORDERS SET ?',ticket, function(err, result) {
                 if (err) {
                     connection.rollback(function() {
                         console.log(err)
@@ -195,7 +199,7 @@ function pay_using_saved_card_gen(socket) {
                     })
                     return
                 };
-                console.log(result)
+                //console.log(result)
                 connection.query('SELECT LAST_INSERT_ID()', null, function(err, result) {
                     if (err) {
                         connection.rollback(function() {
@@ -215,6 +219,7 @@ function pay_using_saved_card_gen(socket) {
                     })
                 })
             })
+            console.log(a)
         })
     }
 }
@@ -234,16 +239,17 @@ function format_date(date) {
 }
 function get_system_info_gen(socket) {
     return function get_system_info(data) {
-        connection.query('SELECT Child_discount, Senior_discount, Ticket_price FROM SYSTEM_INFO', null, function(err, result) {
+        var a = connection.query('SELECT Child_discount, Senior_discount, Ticket_price FROM SYSTEM_INFO', null, function(err, result) {
             if (err) {
                 console.log(err)
                 return
             };
-            console.log(result);
+            //console.log(result);
             result.Child_discount = parseFloat(result.Child_discount)
             result.Senior_discount = parseFloat(result.Senior_discount)
             socket.emit('system_info', result[0]);
         })
+        console.log(a)
     }
 }
 function get_showtime_gen(socket) {
@@ -257,7 +263,7 @@ function get_showtime_gen(socket) {
                 console.log(err)
                 return
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('showtimes', result)
         })
     }
@@ -281,7 +287,7 @@ function get_my_payment_info_gen(socket) {
                 console.log(err)
                 return ;
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('my_pament_info', result);
 
         })
@@ -299,7 +305,7 @@ function get_order_history_gen(socket) {
     return function get_order_history(data) {
         console.log(data);
         connection.query("(SELECT Order_id, Mtitle, Status, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE User = ? AND Status != 'Cancelled') UNION (SELECT Order_id, Mtitle, Status, (Adult_tickets * Ticket_price + Child_tickets * Ticket_price * Child_discount + Senior_tickets * Ticket_price * Senior_discount - Cancellation_fee) AS Total_cost FROM ORDERS, SYSTEM_INFO WHERE User = ? AND Status = 'Cancelled')", [data, data], function(err, result) {
-            console.log(result)
+            //console.log(result)
             socket.emit('order_history', result);
         })
     }
@@ -307,12 +313,14 @@ function get_order_history_gen(socket) {
 function add_preferred_theater_gen(socket) {
     return function add_preferred_theater_handler(data) {
         console.log(data);
-        connection.query('INSERT INTO PREFERS SET ?', data, function(err, result) {
+        var a = connection.query('INSERT INTO PREFERS SET ?', data, function(err, result) {
             if (err) {
                 console.log(err)
             };
-            console.log(result);
+            //console.log(result);
         })
+        console.log('--------------------------------------------------------')
+        console.log(a.sql)
     }
 }
 function get_preferred_theaters_gen(socket) {
@@ -357,12 +365,13 @@ function give_review_gen(socket) {
             socket.on('invalid_value')
             return
         };
-        connection.query('INSERT INTO REVIEW SET ?', [data], function(err, result) {
+        var a = connection.query('INSERT INTO REVIEW SET ?', [data], function(err, result) {
             if (err) {
                 console.log(err)
             };
             socket.emit('review_inserted');
         })
+        console.log(a)
     }
 }
 function get_movie_info_handler_gen(socket) {
@@ -372,7 +381,7 @@ function get_movie_info_handler_gen(socket) {
             if (err) {
                 console.log(err)
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('movie_info', result[0]);
         })
     }
@@ -384,7 +393,7 @@ function get_movie_review_gen(socket) {
             if (err) {
                 console.log(err)
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('movie_reviews', result);
         })
     }
@@ -396,7 +405,7 @@ function get_movie_review_avg_gen(socket) {
             if (err) {
                 console.log(err);
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('movie_review_avg_rating', result[0]);
         })
     }
@@ -407,7 +416,7 @@ function search_theater_gen(socket) {
             if (err) {
                 console.log(err);
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('search_theater_result', result);
         })
     }
@@ -420,7 +429,7 @@ function get_popular_movie_report_gen(socket) { //TODO
                 console.log(err)
                 return;
             };
-            console.log(result);
+            //console.log(result);
             socket.emit('popular_movie_report', {month:month, result:result});
         })
     }
@@ -448,7 +457,7 @@ function get_revenue_report_gen(socket) {
                         })
                         return;
                     };
-                    console.log(result);
+                    //console.log(result);
                     socket.emit('revenue_report', result);
                     connection.commit(function(err) {
                         if (err) {
@@ -467,7 +476,7 @@ function register_handler_gen(socket) {
             if (err) {
                 console.log(err);
             };
-            console.log(result);
+            //console.log(result);
             if (result.length === 0) {
                 if (data.manager_password) {
                     connection.query('SELECT Manager_password FROM SYSTEM_INFO', null, function(err, result) {
@@ -475,20 +484,21 @@ function register_handler_gen(socket) {
                         if (data.manager_password === correct_manager_password) {
                             delete data.confirm_password
                             delete data.manager_password
-                            connection.query('INSERT INTO USER SET ?', data, function(err, result){
+                            var query = connection.query('INSERT INTO USER SET ?', data, function(err, result){
                                 if (err) {
                                     console.log(err)
                                 };
-                                console.log(result)
+                                //console.log(result)
                                 socket.emit('registered')
                                 var user = {Username: data.Username};
                                 connection.query('INSERT INTO MANAGER SET ?', user, function(err, result) {
                                     if (err) {
                                         console.log(err)
                                     };
-                                    console.log(result);
+                                    //console.log(result);
                                 })
                             })
+                            console.log(query)
                         } else {
                             console.log('wrong_manager_password');
                             socket.emit('wrong_manager_password')
@@ -496,20 +506,21 @@ function register_handler_gen(socket) {
                     })
                 } else {
                     delete data.confirm_password
-                    connection.query('INSERT INTO USER SET ?', data, function(err, result){
+                    var a = connection.query('INSERT INTO USER SET ?', data, function(err, result){
                         if (err) {
                             console.log(err)
                         };
-                        console.log(result)
+                        //console.log(result)
                         socket.emit('registered')
                         var user = {Username: data.Username};
                         connection.query('INSERT INTO CUSTOMER SET ?', user, function(err, result) {
                             if (err) {
                                 console.log(err)
                             };
-                            console.log(result);
+                            //console.log(result);
                         })
                     })
+                    console.log(a)
                 }
             } else {
                 console.log('duplicate!')
