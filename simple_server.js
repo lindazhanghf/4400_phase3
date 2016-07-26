@@ -463,7 +463,7 @@ function get_revenue_report_gen(socket) {
 function register_handler_gen(socket) {
     return function register_handler(data) {
         console.log(data)
-        connection.query('SELECT Password FROM USER WHERE Username = ? OR Email = ?', null, function(err, result) {
+        connection.query('SELECT Password FROM USER WHERE Username = ? OR Email = ?', [data.Username, data.Email], function(err, result) {
             if (err) {
                 console.log(err);
             };
